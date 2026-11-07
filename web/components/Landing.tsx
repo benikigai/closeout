@@ -1,5 +1,6 @@
 import type source from '@/server/assessment.json';
 import Closeout from '@/components/Closeout';
+import measured from '@/data/demo-payload.json';
 
 type Heldout = {
   scenarios: number; units_tested: number; cold_units: number; cold_failed_before: number; cold_failed_after: number;
@@ -45,7 +46,7 @@ export default function Landing({ assessment, heldout }: { assessment: typeof so
       <nav className="nav">
         <a href="#top" className="wordmark">closeout<span>.</span></a>
         <div className="nav-links">
-          <a href="#problem">Problem</a><a href="#how">How it works</a><a href="#bench">Demo</a><a href="#rules">Rules</a>
+          <a href="#problem">Problem</a><a href="#how">How it works</a><a href="#bench">Demo</a><a href="#measured">Results</a><a href="#rules">Rules</a>
           <a href={REPO} target="_blank" rel="noreferrer">GitHub</a>
         </div>
         <a href="#bench" className="nav-cta">Run the bench</a>
@@ -107,6 +108,35 @@ export default function Landing({ assessment, heldout }: { assessment: typeof so
         <h2>Run the firmware.<br /><span>Try to cheat.</span></h2>
         <p className="lede">Every result below comes from compiled C running on the server against a synthetic unit. Widen the limit and watch a known-bad dome slip through.</p>
         <Closeout assessment={assessment} embedded />
+      </section>
+
+      <section className="band" id="measured">
+        <p className="eyebrow">Measured on the full loop</p>
+        <h2>Real calls.<br /><span>Cached honestly.</span></h2>
+        <p className="lede">The engine ran SubQ, Gemini, the firmware and MongoDB Atlas on 2026-11-07. This section replays that run, and says so.</p>
+        <div className="measured">
+          <div>
+            <p className="eyebrow">FA investigations to root cause</p>
+            <dl className="bars">
+              {([['Closeout', measured.metric_summary.subq_mean], ['Random', measured.metric_summary.random_mean], ['Worst first', measured.metric_summary.worst_first_mean]] as const).map(([name, v]) => (
+                <div key={name}><dt>{name}</dt><dd><i style={{ width: `${(v / measured.metric_summary.worst_first_mean) * 100}%` }} /><b>{v}</b></dd></div>
+              ))}
+            </dl>
+            <p className="small">Mean across {measured.metric_summary.scenarios} sealed scenarios. Lower is better. Closeout and random are close here, so this is a small edge, not a rout.</p>
+          </div>
+          <div>
+            <p className="eyebrow">Gemini blind verdict · {measured.verifier.label}</p>
+            <p className="verdict">{measured.verifier.verdict === 'holds' ? 'The root cause holds.' : measured.verifier.verdict}</p>
+            <p className="small">{measured.verifier.reason}</p>
+            <p className="eyebrow" style={{ marginTop: 22 }}>Gates</p>
+            <ul className="gates">
+              <li><strong>{measured.gates.cheat.gate === 'blocked_cheat' ? 'Blocked' : 'Allowed'}</strong> {measured.gates.cheat.attempted_fix}, which let {measured.gates.cheat.known_bad_escaped.length} known-bad unit escape</li>
+              <li><strong>{measured.gates.heldout.cold_fail_before} → {measured.gates.heldout.cold_fail_after_fix}</strong> cold failures across {measured.gates.heldout.seeds} held-out seeds</li>
+              <li><strong>{measured.gates.heldout.known_bad_still_fail}</strong> known-bad units still fail</li>
+            </ul>
+          </div>
+        </div>
+        <p className="small">MIL {measured.mil_id} · {measured.lifecycle} · category {measured.category_history.map((c) => c.category).join(' → ')} · state {measured.truth_label}</p>
       </section>
 
       <section className="band" id="rules">

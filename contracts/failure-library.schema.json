@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Closeout failure library entry",
+  "type": "object",
+  "required": ["id", "failure_name", "station", "category_initial", "category_true", "symptom_in_logs", "hidden_cause", "red_herring", "cheat_fix", "real_fix", "fa_test_that_discriminates", "seeded"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^F-[0-9]{2}$" },
+    "failure_name": { "type": "string" },
+    "station": { "type": "string" },
+    "category_initial": { "enum": ["Quality", "Hardware", "Sensing", "Camera", "Test Station", "Assembly", "Operator", "Firmware", "Material", "Software"] },
+    "category_true": { "enum": ["Quality", "Hardware", "Sensing", "Camera", "Test Station", "Assembly", "Operator", "Firmware", "Material", "Software"] },
+    "symptom_in_logs": { "type": "string" },
+    "hidden_cause": { "type": "string" },
+    "red_herring": { "type": "string" },
+    "cheat_fix": { "type": "string" },
+    "real_fix": { "type": "string" },
+    "fa_test_that_discriminates": { "type": "string" },
+    "seeded": { "type": "boolean" }
+  },
+  "additionalProperties": false
+}

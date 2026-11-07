@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Closeout cheat-fix rejection fixture",
+  "type": "object",
+  "required": ["attempted_fix", "known_bad_results", "expected_gate"],
+  "properties": {
+    "attempted_fix": {
+      "type": "object",
+      "required": ["kind", "description"],
+      "properties": {
+        "kind": { "enum": ["widen_limit", "retry_until_pass", "recalibrate_downstream"] },
+        "description": { "type": "string" },
+        "new_limit": { "type": "number" }
+      }
+    },
+    "known_bad_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["unit_id", "result"],
+        "properties": { "unit_id": { "type": "string" }, "result": { "enum": ["pass", "fail"] }, "uniformity": { "type": "number" } }
+      }
+    },
+    "expected_gate": { "enum": ["blocked_cheat", "allowed"] }
+  },
+  "additionalProperties": false
+}

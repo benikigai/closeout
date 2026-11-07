@@ -1,0 +1,21 @@
+{
+  "mil_id": "MIL-001",
+  "lifecycle": "suspected",
+  "truth_label": "fixture",
+  "category": "Material",
+  "category_history": [
+    { "category": "Material", "at": "triage", "by": "operator" },
+    { "category": "Firmware", "at": "assessment-2", "by": "subq" }
+  ],
+  "hypotheses": [
+    { "id": "H-01", "claim": "LED lot defective", "score": 0.12, "status": "refuted" },
+    { "id": "H-02", "claim": "Cold driver drops calibration write", "score": 0.91, "status": "supported" }
+  ],
+  "evidence": [
+    { "kind": "observed", "text": "Cold units fail T-OPT-01, warm units pass", "unit_id": "U-0103" },
+    { "kind": "inferred", "text": "Driver ready-delay explains cold pattern", "unit_id": "U-0103" }
+  ],
+  "fa_picks": { "judge": ["U-0101", "U-0102"], "subq": ["U-0103", "U-0104"] },
+  "verifier": { "verdict": "holds", "reason": "Held-out probes consistent" },
+  "metric_summary": { "scenarios": 20, "label": "headline", "subq_mean": 4.1, "random_mean": 7.8, "worst_first_mean": 6.9, "variance": 1.3 }
+}

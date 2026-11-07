@@ -44,3 +44,12 @@
 @media (prefers-reduced-motion: reduce) { .hero-dome .halo { animation: none; } }
 
 .band, .proof, #top { scroll-margin-top: 84px; }
+.measured { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); margin-bottom: 14px; }
+.measured > div { background: var(--bg); padding: 28px; }
+.bars { margin: 0; display: grid; gap: 14px; } .bars div { display: grid; grid-template-columns: 96px 1fr; align-items: center; gap: 12px; }
+.bars dt { color: var(--muted); font-size: 14px; } .bars dd { margin: 0; display: flex; align-items: center; gap: 10px; }
+.bars i { display: block; height: 14px; background: var(--accent); min-width: 4px; } .bars b { font: 500 13px var(--mono); }
+.verdict { font-size: 26px; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 8px; color: var(--green); }
+.gates { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; color: var(--muted); font-size: 14px; } .gates strong { color: var(--ink); margin-right: 6px; }
+.band#measured { scroll-margin-top: 84px; }
+@media (max-width: 900px) { .measured { grid-template-columns: 1fr; } }
