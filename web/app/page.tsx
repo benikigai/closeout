@@ -1,6 +1,9 @@
 import assessment from '@/server/assessment.json';
-import Closeout from '@/components/Closeout';
+import Landing from '@/components/Landing';
+import { verifyHeldout } from '@/server/firmware';
 
-export default function Page() {
-  return <Closeout assessment={assessment} />;
+export default async function Page() {
+  // Runs the compiled firmware on the held-out builds when the page is built.
+  const heldout = await verifyHeldout().catch(() => null);
+  return <Landing assessment={assessment} heldout={heldout} />;
 }

@@ -21,7 +21,7 @@ function Dome({ uniformity = .02, label }: { uniformity?: number; label: string 
   </svg>;
 }
 
-export default function Closeout({ assessment }: { assessment: typeof source }) {
+export default function Closeout({ assessment, embedded = false }: { assessment: typeof source; embedded?: boolean }) {
   const [stage, setStage] = useState(0);
   const [selected, setSelected] = useState<CaseName>('cold');
   const [comparison, setComparison] = useState<Comparison | null>(null);
@@ -52,9 +52,10 @@ export default function Closeout({ assessment }: { assessment: typeof source }) 
   const showFixed = stage >= 4;
   const action = ['Reproduce the failure', 'Inspect the evidence', 'Test the shortcut', 'Run the corrected firmware', 'Run 20 held-out builds'][stage];
 
-  return <main>
-    <header className="topbar"><a href="#" className="wordmark">closeout<span>.</span></a><div className="run-label"><span className="live-dot" />Live C execution <span className="divider">/</span> Synthetic factory</div><a className="repo" href="https://github.com/benikigai/closeout" target="_blank" rel="noreferrer">Source ↗</a></header>
-    <section className="intro"><p className="eyebrow">AIE CODE SUMMIT · NOV 07, 2026</p><h1>The parts are fine.<br /><span>The firmware is early.</span></h1><p className="lede">A cold driver drops a calibration write. Find the cause, block the shortcut, and let the next build judge the correction.</p></section>
+  const Wrap = embedded ? 'div' : 'main';
+  return <Wrap className={embedded ? 'bench-embed' : undefined}>
+    {!embedded && <header className="topbar"><a href="#" className="wordmark">closeout<span>.</span></a><div className="run-label"><span className="live-dot" />Live C execution <span className="divider">/</span> Synthetic factory</div><a className="repo" href="https://github.com/benikigai/closeout" target="_blank" rel="noreferrer">Source ↗</a></header>}
+    {!embedded && <section className="intro"><p className="eyebrow">AIE CODE SUMMIT · NOV 07, 2026</p><h1>The parts are fine.<br /><span>The firmware is early.</span></h1><p className="lede">A cold driver drops a calibration write. Find the cause, block the shortcut, and let the next build judge the correction.</p></section>}
     <nav className="steps" aria-label="Demo progress">{steps.map((step, i) => <span key={step} className={stage > i ? 'done' : stage === i ? 'active' : ''}><b>{stage > i ? '✓' : String(i + 1).padStart(2, '0')}</b>{step}</span>)}</nav>
     <section className="bench">
       <div className="bench-head"><div><p className="eyebrow">THE VIRTUAL TEST BENCH</p><h2>{selected === 'cold' ? 'Cold Dome' : selected === 'warm' ? 'Warm control' : 'Physical defect control'}</h2></div><span className="tag">S8 · FUNCTIONAL TEST</span></div>
@@ -71,6 +72,6 @@ export default function Closeout({ assessment }: { assessment: typeof source }) 
     {stage >= 3 && <section className="gate-panel"><div className="section-head"><p className="eyebrow">03 / THE SHORTCUT</p><span className="tag">LIVE C RESULT + CODE CHECK</span></div><h2 className={cheat ? 'red' : ''}>{cheat ? 'The shortcut passes the wrong unit.' : 'The shortcut check did not block.'}</h2><p>Raise the optical limit from 0.05 to 0.24 and a physically defective dome measuring 0.22 passes. The negative control blocks that change.</p><pre><code><span className="red">− uniformity &lt; 0.24  // hides a physical defect</span>{'\n'}+ uniformity &lt; 0.05  // original limit retained</code></pre><p className="small">This is the demo’s measured negative-control check. No production ledger mutation is performed.</p></section>}
     {stage >= 4 && <section className="gate-panel"><div className="section-head"><p className="eyebrow">04 / THE CORRECTION</p><span className="tag">REAL COMPILED C</span></div><h2>Change the timing.<br />Keep the standard.</h2><pre><code>{'while (!hal_led_driver_ready()) hal_delay_ms(10);\nif (hal_led_write_cal(CAL_TARGET)) return 1;\nhal_delay_ms(10);\nreturn hal_led_write_cal(CAL_TARGET);'}</code></pre><p className="small">An unchanged snapshot of Muse’s correction, compiled on the deployment builder. Both revisions execute against the same synthetic HAL.</p></section>}
     {heldout && <section className={`heldout ${heldout.passed ? 'passed' : 'failed'}`}><div className="section-head"><p className="eyebrow">05 / HELD-OUT VERIFICATION</p><span className="tag">LIVE C EXECUTION</span></div><h2>{heldout.passed ? 'The next builds hold.' : 'The correction failed verification.'}</h2><div className="metrics"><div><strong>{heldout.scenarios}</strong><span>fresh scenario seeds</span></div><div><strong>{heldout.cold_failed_before} → {heldout.cold_failed_after}</strong><span>cold-unit failures</span></div><div><strong>{heldout.physical_still_fail}/{heldout.physical_defects}</strong><span>physical defects still rejected</span></div></div><p className="small">{heldout.units_tested} virtual units ran through both binaries. Warm-control regressions: {heldout.warm_regressions}. This verifies the firmware correction, not physical-world yield.</p><p className="limit-note">MIL state: suspected. Live FA confirmation, independent verification, and the MongoDB closeout gate are still separate integrations.</p></section>}
-    <footer><strong>Failure in. Evidence out.</strong><p>Standalone hackathon prototype. Fictional beacon, synthetic measurements.<br />Live C execution · SubQ assessment replay · No live model calls or customer data.</p><a href="https://github.com/benikigai/closeout" target="_blank" rel="noreferrer">Inspect the source ↗</a></footer>
-  </main>;
+    {!embedded && <footer><strong>Failure in. Evidence out.</strong><p>Standalone hackathon prototype. Fictional beacon, synthetic measurements.<br />Live C execution · SubQ assessment replay · No live model calls or customer data.</p><a href="https://github.com/benikigai/closeout" target="_blank" rel="noreferrer">Inspect the source ↗</a></footer>}
+  </Wrap>;
 }
