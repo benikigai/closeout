@@ -33,7 +33,15 @@ export async function compare(name: CaseName) {
 }
 
 type Scenario = { seed: number; units: { ready_ms: number; defect: number }[] };
-export async function verifyHeldout() {
+// The held-out run is deterministic: the same binaries and the same seeds give the same result.
+// Run it at most once per server instance, and let concurrent callers share that one run.
+let heldoutRun: ReturnType<typeof runHeldout> | null = null;
+export function verifyHeldout() {
+  if (!heldoutRun) heldoutRun = runHeldout().catch((error) => { heldoutRun = null; throw error; });
+  return heldoutRun;
+}
+
+async function runHeldout() {
   const raw = await readFile(path.join(process.cwd(), 'demo-source/heldout.json'), 'utf8');
   const scenarios = JSON.parse(raw) as Scenario[];
   let tested = 0, cold = 0, coldFailedBefore = 0, coldFailedAfter = 0, physical = 0, physicalStillFail = 0, warmRegressions = 0;
