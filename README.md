@@ -1,90 +1,149 @@
 # Closeout by N+1 Labs
 
-**Closeout solves complex factory failures, physical or firmware, and closes each one only when the next build proves the fix.**
+**Failure in. Proven fix out.**
 
-The MIL says Material. The parts are fine.
+Closeout solves complex factory failures, physical or firmware, and closes each one only when a held-out build proves the fix.
 
-Built at the AIE Code Summit Hackathon on 2026-11-07. Everything here was written during the event. All data is synthetic and seeded. This shows the loop, not the physics.
+> The MIL says Material. The parts are fine.
+
+**Live site:** [closeout-web.vercel.app](https://closeout-web.vercel.app) (fixture data, labeled on screen)
+
+Built at the AIE Code Summit Hackathon on 2026-11-07. Everything here was written during the event. The product, the line and every failure are fictional, and all data is synthetic and seeded. This proves the loop, not the physics.
 
 ## The problem
 
-Every hardware program runs a Major Issues List (MIL). Each item has a failure, a station, a failure rate, an owner and a suspected cause. Teams test hypotheses, send units to failure analysis (FA), confirm a root cause, ship a corrective action and monitor it.
+Hardware launches slip because root cause takes physical units, scarce FA time and several teams who each blame the other. Major Issues List (MIL) items then close on a yield bump, and the defect comes back.
 
-The hard items cross boundaries:
+| Failure type | Example | Why it stays open | How it closes |
+| --- | --- | --- | --- |
+| **Physical** | A dome is bonded out of position | Only FA can see it | FA confirms, a process change ships, a held-out build holds |
+| **Firmware** | A calibration write gets dropped | It only appears on some units | An agent patches real code, a held-out build holds |
+| **Both** | A slow part meets a cold start | It looks like Material, and the fix is in firmware | FA re-routes it, then the same gate decides |
 
-- **Physical:** a part is off, a process drifted, a fixture wore out.
-- **Firmware:** code made an assumption the hardware broke.
-- **Both:** a slower second-source part meets a cold start. It shows up as Material, the fix is in firmware, and no single team owns it.
+**User:** an early hardware startup with no dedicated FA team, right after a yield step-down.
 
-FA time is scarce. Picking the wrong units burns days. Closing an item on a yield bump can hide the defect.
+## The demo in one failure
 
-## The loop
+**Cold Dome.** A fictional beacon fails dome uniformity at the optical station. The MIL blames LED material. The real cause: a cold second-source LED driver starts slowly, so firmware's calibration write gets dropped.
 
-**SubQ decides → Muse builds → Gemini checks → MongoDB remembers**
+1. Logs stream in and the MIL item opens as **Material**.
+2. SubQ scores every failed unit in one call.
+3. A judge picks 5 FA units, and SubQ's scores pick 5. FA findings re-route the item to **Firmware**.
+4. Gemini tries to kill the root cause on sealed evidence.
+5. A cheat fix widens the test limit. Yield rises, known-bad units pass, and Closeout **blocks it**.
+6. Muse patches the firmware. Known-bad units still fail, and cold units pass.
+7. A held-out build passes, and the item closes with its audit trail.
 
-| Step | What happens | Who |
+## How it works
+
+SubQ decides. Muse fixes. Gemini doubts. Code keeps score. MongoDB remembers.
+
+```mermaid
+flowchart LR
+    logs["Station logs<br/>per unit, per test"] --> subq["SubQ Snap 1.1<br/>scores units<br/>routes the owner"]
+    subq --> picker["Picker (code)<br/>chooses FA units"]
+    picker --> fa["Sealed FA lab<br/>spends budget<br/>returns findings"]
+    fa --> muse["Muse Wonder<br/>patches real code"]
+    muse --> gate{"Gate (code)<br/>known-bad units<br/>held-out build"}
+    gemini["Gemini Argon<br/>blind falsifier"] --> gate
+    gate -- pass --> close["MongoDB MIL<br/>item closes"]
+    gate -- fail --> muse
+```
+
+| Part | Job | Never does |
 | --- | --- | --- |
-| Lock | The twin's top failures are hashed before the build | Code |
-| Reveal | The hash verifies and hit@3 is computed | Code |
-| Triage | Each failed unit gets a probability for every hypothesis, and each item gets an owner | SubQ Snap 1.1 |
-| FA routing | SubQ scores units, then code picks the units to send | SubQ and code |
-| Root cause | Only an FA finding can confirm a cause | Sealed FA lab |
-| Fix | A versioned change to firmware, a test or the twin | Muse (`muse-wonder-1.0`) |
-| Attack | An independent model tries to refute it from the data and the claim | Gemini (`gemini-4-argon`) |
-| Gate | A held-out build decides what stays. The rest rolls back | Code |
-| Record | MIL item, evidence, versions and rollback | MongoDB Atlas |
+| **SubQ Snap 1.1** | Up to 128 typed decisions per call over up to 384K tokens: hypothesis scores, owner category | Confirm a root cause |
+| **Code** | Pick units, compute rates, run gates, decide pass or fail | Guess |
+| **Muse (`muse-wonder-1.0`)** | Patch firmware and test code | Grade its own patch |
+| **Gemini (`gemini-4-argon`)** | Try to falsify the claim from evidence only | See Muse's reasoning |
+| **MongoDB** | Hold the MIL, evidence and revisions. Reject invalid closes | Accept `confirmed` without an FA finding |
 
-**Track:** The System That Gets Better. Each failure becomes a versioned change, and held-out work decides what is adopted.
+## How an item closes
+
+Closing is a state machine, so no agent can talk an item shut.
+
+```mermaid
+stateDiagram-v2
+    [*] --> Triage: failures logged
+    Triage --> Suspected: scored and routed
+    Suspected --> Confirmed: FA finding ID
+    Suspected --> Suspected: verifier dissent, one more probe round
+    Confirmed --> Monitoring: fix passes known-bad gate
+    Confirmed --> Confirmed: cheat or failed fix rejected
+    Monitoring --> Closed: held-out build passes
+    Monitoring --> Confirmed: failure recurs, roll back
+    Closed --> [*]
+```
+
+## Who can see what
+
+Independence is the point, so each actor gets only part of the truth.
+
+```mermaid
+flowchart TB
+    world[("Sealed world<br/>seeded causes, known-bad units")]
+    world -->|one finding per unit sent| lab["FA lab"]
+    world -->|run only, answers hidden| gate["Gate"]
+    lab --> ev["Evidence ledger"]
+    logs["Logs"] --> subq["SubQ"]
+    logs --> ev
+    ev --> muse["Muse"]
+    ev --> gemini["Gemini"]
+    muse -. "no reasoning shared" .-x gemini
+    subq -. "no access" .-x world
+    muse -. "no access" .-x world
+    gemini -. "no access" .-x world
+```
 
 ## Rules
 
-- No model computes a score. Code does.
-- `confirmed` needs an FA finding ID.
-- An item cannot close before monitoring passes.
-- Every value is tagged observed or inferred.
-- Live, replay and fixture states stay visible on every screen.
-
-## Plan
-
-| By (PT) | Slice | Owner | Status |
-| --- | --- | --- | --- |
-| 12:30 | Real SubQ call on seeded logs | Claude Code | Done |
-| 12:45 | Site on Vercel, on fixture data | Claude Code | In progress |
-| 1:30 | Scaffold line, toy twin, station code, sealed FA lab | Muse Code | Not started |
-| 2:30 | Hash lock, hit@3, FA picker, baselines | Muse Code | Not started |
-| 3:30 | Muse change, Gemini attack, held-out gate, MongoDB ledger | Muse Code | Not started |
-| 4:15 | Site reads the real `run.json`. Feature freeze | Both | Not started |
-| 4:45 | One-minute video | Ben | Not started |
-| 5:00 | Submit | Ben | Not started |
-
-**Fallback:** if the Muse loop is not working by 3:30 PM, ship lock, reveal, score and the FA race, and show the change as a labeled replay.
+- Rates, scores and gate results come from code, never a model.
+- `confirmed` requires an FA finding ID.
+- A fix that lets a known-bad unit pass is rejected, whatever it does to yield.
+- An item cannot close before a held-out build passes.
+- Verifier dissent keeps the cause `suspected` and adds one probe round.
+- Every screen and record says `live`, `fixture`, `replay` or `simulated`.
 
 ## Measured so far
 
-One SubQ Snap 1.1 call on 128 seeded failed units whose causes overlap on purpose (2.54 s):
+One SubQ Snap 1.1 call on 128 seeded failed units with overlapping causes, using a first greedy picker:
 
 | Check | Result |
 | --- | --- |
+| Call time | 2.54 s |
 | Top choice matched the seeded cause | 41.4% |
-| Confidence 0.8 to 1.0 (31 units) | Said 93%, right 71% |
-| Causes found with 5 FA units, SubQ picks | 73.4% of failed units explained |
-| Random picks, 2,000 trials | 78.6% |
+| High-confidence answers (0.8 to 1.0, 31 units) | Said 93%, right 71% |
+| Failed units explained by 5 FA picks: SubQ picker | 73.4% |
+| Random, 2,000 trials | 78.6% |
 | Lowest uniformity first | 79.7% |
 
-The first picker lost to both baselines. FA routing is unproven, and this is the next problem to solve. The sample is small.
+This first picker lost to both baselines, on one small scenario. FA routing is unproven. The headline metric will be FA units to root cause across at least 20 sealed scenarios, reported whichever way it lands. SubQ outputs stay "scores" until a calibration check justifies "probabilities."
+
+## Build plan
+
+| Task | Scope | Owner | Status |
+| --- | --- | --- | --- |
+| 0 | Access gates for each sponsor | Muse | In progress |
+| 1 | Contracts, failure library, log generator | Muse, Codex | Blocked on contracts |
+| 2 | Firmware and fake hardware layer | Muse | Not started |
+| 3 | FA picker, baselines, calibration, metric | Muse | Not started |
+| 4 | Patch loop, Gemini, known-bad gate | Muse | Not started |
+| 5 | MongoDB MIL ledger and gates | Muse | Not started |
+| 6 | Judge-facing site | Claude Code | Live on fixture data |
+| 7 | Rehearsal, one-minute video | Ben | Not started |
+
+Freeze at 4:15 PM PT. Video by 4:45 PM PT.
+
+**Fallback ladder:** live SubQ → cached scores. Live Gemini → pre-run verdict. Live Muse patch → trace replay. Anything on a fallback says `replay` on screen.
 
 ## Repo
 
 ```text
-web/    Next.js site, deployed on Vercel. FA answers stay on the server.
-engine/ Scaffold line, twin, FA lab and agent loop.
-docs/   run-contract.md, the JSON the engine writes and the site reads.
+web/     Judge-facing Next.js site on Vercel. FA answers stay on the server.
+engine/  Scaffold for the engine. Replace with the spec's folders as they land.
+docs/    run-contract.md, the JSON the engine writes and the site reads.
 ```
-
-The site runs on `web/data/run.json`. `web/data/sealed.json` holds the FA answers and is not in this repo. Regenerate both from `web/` with `SUBQ_API_KEY=... python3 scripts/make_fixture.py`.
 
 ## Where it goes
 
-N+1 Labs builds the Golden Twin, a twin of the line that builds your product, corrected by every real build. Closeout is the loop that does the correcting. The twin here is a toy behind a small interface.
-
-Prior work: the sealed backtest idea and the Draft, Calibrated, Proven grades come from N+1 Labs. No Golden Twin code is in this repo. Station names are placeholders.
+Closeout comes from N+1 Labs. This repo holds no N+1 product data or code. No real product, employer data or customer data is used.
