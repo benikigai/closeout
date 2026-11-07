@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Closeout per-unit test log record (JSONL, one object per line)",
+  "type": "object",
+  "required": ["unit_id", "station", "test_id", "result", "lot_id", "shift", "firmware_version", "seed"],
+  "properties": {
+    "unit_id": { "type": "string" },
+    "station": { "type": "string" },
+    "test_id": { "type": "string" },
+    "result": { "enum": ["pass", "fail"] },
+    "measured": { "type": "object" },
+    "lot_id": { "type": "string" },
+    "shift": { "type": "string" },
+    "firmware_version": { "type": "string" },
+    "timestamp": { "type": "string" },
+    "seed": { "type": "integer" },
+    "known_bad": { "type": "boolean" }
+  },
+  "additionalProperties": false
+}
