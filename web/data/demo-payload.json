@@ -61,7 +61,7 @@
  "verifier": {
   "label": "live",
   "verdict": "holds",
-  "reason": "The held-out evidence completely supports the claim, showing a reduction of cold-start failures from 202 to 0 across 202 units after applying the fix, while known-bad units continue to fail as expected."
+  "reason": "The fix reduced cold-start failures from 100% (202/202) to 0% (0/202) across 10 seeds while preserving detection of all 22 known-bad units, providing no basis for falsification."
  },
  "metric_summary": {
   "scenarios": 24,
@@ -88,7 +88,7 @@
   "verifier": {
    "label": "live",
    "verdict": "holds",
-   "reason": "The held-out evidence completely supports the claim, showing a reduction of cold-start failures from 202 to 0 across 202 units after applying the fix, while known-bad units continue to fail as expected."
+   "reason": "The fix reduced cold-start failures from 100% (202/202) to 0% (0/202) across 10 seeds while preserving detection of all 22 known-bad units, providing no basis for falsification."
   }
  }
 }
