@@ -1,4 +1,4 @@
-# Closeout by N+1 Labs
+# Closeout
 
 **Failure in. Proven fix out.**
 
@@ -10,7 +10,7 @@ Closeout is a Failure Analysis (FA) engine for hardware factories. It takes the 
 **Repo:** [benikigai/closeout](https://github.com/benikigai/closeout) (public, built 2026-11-07 at the AIE Code Summit Hackathon)
 **Built with:** Muse Code (`muse-wonder-1.0`) · SubQ Snap 1.1 · Gemini (`gemini-4-argon`) · MongoDB
 
-Everything in this repo was written during the event. The product, the line, and every failure are fictional. All data is `synthetic` and seeded. This proves the loop, not the physics. No N+1 Labs product data, customer data, employer data, or Golden Twin code is in this repo.
+Everything in this repo was written during the event. The product, the line, and every failure are fictional. All data is `synthetic` and seeded. This proves the loop, not the physics. No real product, customer, or employer data or code is in this repo.
 
 ---
 
@@ -260,7 +260,7 @@ flowchart TD
     cat --> seeded["Seeded end-to-end (3)<br/>Cold Dome - Ghost Hold - Hot Queue<br/>+ red herrings"]
     cat --> packs["Unseeded sealed packs<br/>same schema, not simulated<br/>incl. AR-glasses entries as data only"]
     seeded --> demo["Demo loop"]
-    packs --> monday["Monday: real customer line<br/>same schema, real entries"]
+    packs --> later["Post-hackathon build-out<br/>real line, same schema, real entries"]
 ```
 
 Each entry carries: failure name, station, log symptom, hidden physical cause, the red herring everyone blames first, the cheat fix that must be rejected, the real fix, and the one FA test that discriminates it. Every entry is labeled `logic credible` (simulation can expose it) or `rate not credible` (simulation must never quote a failure rate for it). If a judge asks "does this work for AR glasses?" — the answer is the pack, not a promise.
@@ -277,31 +277,31 @@ firmware/  (landing) Small C firmware + fake HAL. Muse patches these files.
 
 Run contract in one line: the engine writes one `run.json` (`live` / `replay` / `fixture`, shown on every screen); the sealed FA answers live in a server-only file and are never sent whole to the browser. Regenerate fixture data from `web/` with `SUBQ_API_KEY=... python3 scripts/make_fixture.py`. Keys stay in the local 1Password environment mount; only key names ever appear in this repo.
 
-## 10. Why N+1 Labs, and where this goes
+## 10. Where this goes after the hackathon
 
-N+1 Labs builds the **Golden Twin**: a twin of the line that builds your product, corrected by every real build. A twin is only as good as its correction loop — and today that loop is a spreadsheet, gut-feel FA, and fixes nobody proved.
+Closeout is a hackathon prototype. The plan after the event is to build it out properly at N+1 Labs — that is its future home, not its current affiliation. Nothing in this repo is an N+1 Labs product yet.
 
-**Closeout is that correction loop.**
+What transfers when it moves: the loop, the contracts, the ledger schema, and the gates. What gets rebuilt: everything that touches real data.
 
 ```mermaid
 flowchart LR
     build["Real build"] --> failures["Failures + station logs"]
     failures --> closeout["Closeout<br/>assess - pick FA - confirm - patch - falsify - prove"]
-    closeout --> twin["Golden Twin<br/>corrected by proven causes only"]
-    twin --> predict["Next build predicted<br/>before it runs"]
+    closeout --> memory["Failure memory<br/>corrected by proven causes only"]
+    memory --> predict["Next build assessed<br/>before FA is spent"]
     predict --> build
 ```
 
-What Monday looks like, unchanged engine, real data swapped in:
+What the build-out looks like, unchanged engine, real data swapped in:
 
-1. A customer's line definition replaces the fictional beacon line (same 8-station schema shape).
+1. A real line definition replaces the fictional beacon line (same 8-station schema shape).
 2. Real station logs replace the seeded generator (same log-record contract).
-3. The failure library grows from the customer's own MIL history — every closed item makes the next assessment sharper.
+3. The failure library grows from a real MIL history — every closed item makes the next assessment sharper.
 4. The same gates hold: no `confirmed` without FA evidence, no close without a monitored build.
 
-This is also N+1's validation muscle, productized: the sealed held-out build is the same discipline as a blind backtest — predict first, let units you never tuned against decide, report whichever way it lands.
+The sealed held-out build is the same discipline as a blind backtest — predict first, let units you never tuned against decide, report whichever way it lands.
 
-The hackathon artifact stays clean on purpose: fictional product, synthetic data, everything built today, no Golden Twin code, no calibration IP. What transfers is the loop, the contracts, the ledger schema, and the gates.
+The hackathon artifact stays clean on purpose: fictional product, synthetic data, everything built today. No real line, product, or calibration IP is in here to leak into that build-out.
 
 ---
 
@@ -315,6 +315,6 @@ The hackathon artifact stays clean on purpose: fictional product, synthetic data
 
 ---
 
-*Closeout by N+1 Labs — built at the AIE Code Summit Hackathon, 2026-11-07. Failure in. Proven fix out.*
+*Closeout — a hackathon prototype built at the AIE Code Summit Hackathon, 2026-11-07. Failure in. Proven fix out.*
 
 

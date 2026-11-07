@@ -90,7 +90,7 @@ export default function Closeout({ run }: { run: Run }) {
       </header>
 
       <section className="hero">
-        <p className="eyebrow">Closeout by N+1 Labs</p>
+        <p className="eyebrow">Closeout</p>
         <h1>The MIL says Material. The parts are fine.</h1>
         <p className="lede">Closeout solves complex factory failures, physical or firmware, and closes each one only when the next build proves the fix.</p>
         <ol className="line" aria-label="Production line">
