@@ -39,7 +39,7 @@ Hardware launches slip because root cause takes physical units, scarce FA time a
 SubQ decides. Muse fixes. Gemini doubts. Code keeps score. MongoDB remembers.
 
 ```mermaid
-flowchart LR
+flowchart TD
     logs["Station logs<br/>per unit, per test"] --> subq["SubQ Snap 1.1<br/>scores units<br/>routes the owner"]
     subq --> picker["Picker (code)<br/>chooses FA units"]
     picker --> fa["Sealed FA lab<br/>spends budget<br/>returns findings"]
@@ -79,21 +79,13 @@ stateDiagram-v2
 
 Independence is the point, so each actor gets only part of the truth.
 
-```mermaid
-flowchart TB
-    world[("Sealed world<br/>seeded causes, known-bad units")]
-    world -->|one finding per unit sent| lab["FA lab"]
-    world -->|run only, answers hidden| gate["Gate"]
-    lab --> ev["Evidence ledger"]
-    logs["Logs"] --> subq["SubQ"]
-    logs --> ev
-    ev --> muse["Muse"]
-    ev --> gemini["Gemini"]
-    muse -. "no reasoning shared" .-x gemini
-    subq -. "no access" .-x world
-    muse -. "no access" .-x world
-    gemini -. "no access" .-x world
-```
+| Actor | Sees | Never sees |
+| --- | --- | --- |
+| **SubQ** | Logs | The sealed world, FA answers |
+| **Muse** | Logs, FA findings it paid for | The sealed world, known-bad list, held-out build |
+| **Gemini** | Evidence and the claim | Muse's reasoning, the sealed world |
+| **Gate (code)** | Runs known-bad units and the held-out build | Nothing hidden, because it decides by rule |
+| **FA lab** | One unit at a time, for budget | Anything about what the agents think |
 
 ## Rules
 
