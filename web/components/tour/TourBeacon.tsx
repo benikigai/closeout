@@ -33,8 +33,10 @@ export default function TourBeacon({ visible, width, height, readyMs, ...pose }:
 
     const scene = new THREE.Scene();
     const pmrem = new THREE.PMREMGenerator(renderer);
-    const envTex = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-    scene.environment = envTex;
+    const room = new RoomEnvironment();
+    const envTarget = pmrem.fromScene(room, 0.04);
+    room.dispose();
+    scene.environment = envTarget.texture;
     const camera = new THREE.PerspectiveCamera(32.5, width / height, 0.1, 100);
     const key = new THREE.DirectionalLight(0xfff4e0, 1.1); key.position.set(5, 9, 4); scene.add(key);
     const rim = new THREE.DirectionalLight(0x9fc4ff, 0.5); rim.position.set(-6, 4, -5); scene.add(rim);
@@ -44,7 +46,8 @@ export default function TourBeacon({ visible, width, height, readyMs, ...pose }:
     const grad = c2.createRadialGradient(64, 64, 4, 64, 64, 64);
     grad.addColorStop(0, 'rgba(0,0,0,0.55)'); grad.addColorStop(1, 'rgba(0,0,0,0)');
     c2.fillStyle = grad; c2.fillRect(0, 0, 128, 128);
-    const shadow = new THREE.Mesh(new THREE.PlaneGeometry(4.6, 4.6), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(sc), transparent: true, depthWrite: false }));
+    const shadowTex = new THREE.CanvasTexture(sc);
+    const shadow = new THREE.Mesh(new THREE.PlaneGeometry(4.6, 4.6), new THREE.MeshBasicMaterial({ map: shadowTex, transparent: true, depthWrite: false }));
     shadow.rotation.x = -Math.PI / 2; shadow.position.y = -0.01; scene.add(shadow);
 
     const plastic = (c: number, r = 0.55) => new THREE.MeshPhysicalMaterial({ color: c, roughness: r, metalness: 0, clearcoat: 0.25, clearcoatRoughness: 0.6 });
@@ -151,8 +154,12 @@ export default function TourBeacon({ visible, width, height, readyMs, ...pose }:
     };
     return () => {
       draw.current = null;
-      envTex.dispose(); pmrem.dispose(); renderer.dispose();
-      scene.traverse((o) => { if (o instanceof THREE.Mesh) o.geometry.dispose(); });
+      scene.traverse((o) => {
+        if (!(o instanceof THREE.Mesh)) return;
+        o.geometry.dispose();
+        (Array.isArray(o.material) ? o.material : [o.material]).forEach((m) => m.dispose());
+      });
+      shadowTex.dispose(); envTarget.dispose(); pmrem.dispose(); renderer.dispose();
       if (renderer.domElement.parentNode === el) el.removeChild(renderer.domElement);
     };
   }, [width, height]);

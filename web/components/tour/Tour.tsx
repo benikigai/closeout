@@ -519,6 +519,8 @@ export default function Tour({ data }: { data: TourData }) {
       setFit({ s, x: (innerWidth - 1920 * s) / 2, y: (innerHeight - 1080 * s) / 2 });
     };
     resize(); addEventListener('resize', resize);
+    // Fresh flags for every mount, so a remount never reports the previous run as ready or done.
+    w.__tourReady = false; w.__tourDone = false;
     w.__tourDuration = DURATION; w.__tourFps = FPS;
     w.__tourSetT = (x: number) => flushSync(() => setT(clamp(x, 0, DURATION)));
     let raf = 0, dead = false;
@@ -538,7 +540,11 @@ export default function Tour({ data }: { data: TourData }) {
         };
         raf = requestAnimationFrame(loop);
       });
-    return () => { dead = true; cancelAnimationFrame(raf); removeEventListener('resize', resize); };
+    return () => {
+      dead = true; cancelAnimationFrame(raf); removeEventListener('resize', resize);
+      delete w.__tourSetT; delete w.__tourReady; delete w.__tourDone; delete w.__tourStart;
+      delete w.__tourDuration; delete w.__tourFps;
+    };
   }, []);
 
   return (
