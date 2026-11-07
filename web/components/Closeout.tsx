@@ -43,7 +43,9 @@ function Step({ n, title, line, children }: { n: string; title: string; line?: s
   );
 }
 
-export default function Closeout({ run }: { run: Run }) {
+type Measured = typeof import("@/data/demo-payload.json");
+
+export default function Closeout({ run, measured }: { run: Run; measured: Measured }) {
   const [stage, setStage] = useState(0);
   const [verified, setVerified] = useState<boolean | null>(null);
   const [wall, setWall] = useState(0);
@@ -85,7 +87,7 @@ export default function Closeout({ run }: { run: Run }) {
   return (
     <main>
       <header className="bar">
-        <span className="brand">N<b>+</b>1 Labs</span>
+        <span className="brand">Close<b>o</b>ut</span>
         <span className={`badge ${run.mode}`}>{run.mode}. Synthetic data</span>
       </header>
 
@@ -218,6 +220,21 @@ export default function Closeout({ run }: { run: Run }) {
           <p className="note">All data here is synthetic and seeded. This shows the loop, not the physics. Station names are placeholders.</p>
         </Step>
       )}
+
+      <Step n="08 Measured" title="Measured loop. Real calls, cached honestly." line={`State: ${measured.truth_label}. Scores below came from live SubQ, Gemini, firmware, and Atlas runs on 2026-11-07. Called scores, never calibrated probabilities.`}>
+        <div className="pareto">
+          {measured.hypotheses.map((h) => (
+            <div key={h.id} className="row">
+              <span>{h.claim}</span>
+              <i style={{ width: `${Math.round((h.score ?? 0) * 100)}%`, background: "var(--gold)" }} />
+              <em>{h.score?.toFixed(3)} {h.status}</em>
+            </div>
+          ))}
+        </div>
+        <p className="note">FA investigations to root cause across {measured.metric_summary.scenarios} scenarios: Closeout {measured.metric_summary.subq_mean}, random {measured.metric_summary.random_mean}, worst-first {measured.metric_summary.worst_first_mean}.</p>
+        <p className="note">Gemini blind verdict: {measured.verifier.verdict}. {measured.verifier.reason}</p>
+        <p className="note">Cheat gate: {measured.gates.cheat.gate}. Held out: {measured.gates.heldout.cold_fail_before} cold failures before, {measured.gates.heldout.cold_fail_after_fix} after, {measured.gates.heldout.known_bad_still_fail} known-bad still failing. MIL lifecycle in Atlas: {measured.lifecycle}, category {measured.category}.</p>
+      </Step>
     </main>
   );
 }
