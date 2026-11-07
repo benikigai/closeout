@@ -1,5 +1,6 @@
 import type source from '@/server/assessment.json';
 import Closeout from '@/components/Closeout';
+import DemoStage from '@/components/DemoStage';
 import measured from '@/data/demo-payload.json';
 
 type Heldout = {
@@ -46,7 +47,7 @@ export default function Landing({ assessment, heldout }: { assessment: typeof so
       <nav className="nav">
         <a href="#top" className="wordmark">closeout<span>.</span></a>
         <div className="nav-links">
-          <a href="#problem">Problem</a><a href="#how">How it works</a><a href="#bench">Demo</a><a href="#measured">Results</a><a href="#rules">Rules</a>
+          <a href="#problem">Problem</a><a href="#how">How it works</a><a href="#stage">The bug</a><a href="#bench">Demo</a><a href="#measured">Results</a><a href="#rules">Rules</a>
           <a href={REPO} target="_blank" rel="noreferrer">GitHub</a>
         </div>
         <a href="#bench" className="nav-cta">Run the bench</a>
@@ -101,6 +102,12 @@ export default function Landing({ assessment, heldout }: { assessment: typeof so
           <li><b>05</b><h3>Gate and record</h3><p>Known-bad units must still fail. Held-out builds must pass. MongoDB keeps the MIL and refuses an early close.</p><em>Code · MongoDB Atlas</em><i>On this page: held-out run, live C</i></li>
         </ol>
         <p className="small">Top recorded SubQ score: {top.claim}, {top.score.toFixed(2)}. A score routes the next test. It never confirms a cause.</p>
+      </section>
+
+      <section className="band stage-wrap" id="stage">
+        <p className="eyebrow">See the bug</p>
+        <DemoStage />
+        <p className="small">Exploded beacon and timing are drawn from the engine's measured run. The unit wall is the seeded fixture. All synthetic.</p>
       </section>
 
       <section className="band" id="bench">

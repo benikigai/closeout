@@ -1,0 +1,50 @@
+{
+ "state": "[BUILD seed=7] 60 units tested, 24 failed T-OPT-01 dome uniformity. By lot: {\"LOT-B\": {\"tested\": 23, \"failed\": 23}, \"LOT-A\": {\"tested\": 37, \"failed\": 1}}. Failing units cluster in LOT-B and in first-hour cold starts; warm LOT-B bench LEDs pass. Hypotheses: {\"H1\": \"LED lot defective (Material)\", \"H2\": \"Cold driver drops calibration write (Firmware)\", \"H3\": \"Dome bonding haze (Assembly)\", \"H4\": \"Optical camera miscalibrated (Test Station)\"}",
+ "response": {
+  "model": "subq-snap-1.1",
+  "answers": {
+   "H1_support": {
+    "type": "noul",
+    "noul": 0.12454932183027267
+   },
+   "H2_support": {
+    "type": "noul",
+    "noul": 0.80186927318573
+   },
+   "H3_support": {
+    "type": "noul",
+    "noul": 0.05436046048998833
+   },
+   "H4_support": {
+    "type": "noul",
+    "noul": 0.0771925151348114
+   },
+   "category": {
+    "type": "choice",
+    "choice": "Firmware",
+    "probabilities": {
+     "Material": 0.47889479994773865,
+     "Firmware": 0.5076975226402283,
+     "Assembly": 0.006190704181790352,
+     "Test Station": 0.007217057980597019
+    },
+    "confidence": 0.3435966968536377
+   },
+   "next_probe": {
+    "type": "choice",
+    "choice": "driver_timing",
+    "probabilities": {
+     "driver_timing": 0.8404413461685181,
+     "led_bench": 0.15210352838039398,
+     "dome_inspect": 0.004095030948519707,
+     "camera_recal": 0.003360077505931258
+    },
+    "confidence": 0.7872551282246908
+   }
+  },
+  "usage": {
+   "input_tokens": 461,
+   "output_tokens": 0
+  }
+ }
+}
