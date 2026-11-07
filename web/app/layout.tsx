@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Closeout by N+1 Labs",
+  title: "Closeout",
   description: "Closeout solves complex factory failures, physical or firmware, and closes each one only when the next build proves the fix.",
 };
 
