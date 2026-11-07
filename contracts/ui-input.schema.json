@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Closeout UI assessment payload",
+  "type": "object",
+  "required": ["mil_id", "lifecycle", "truth_label", "hypotheses", "evidence", "metric_summary"],
+  "properties": {
+    "mil_id": { "type": "string" },
+    "lifecycle": { "enum": ["open", "assessing", "suspected", "confirmed", "monitoring", "closed", "blocked_cheat"] },
+    "truth_label": { "enum": ["live", "fixture", "replay", "simulated"] },
+    "category": { "type": "string" },
+    "category_history": { "type": "array", "items": { "type": "object" } },
+    "hypotheses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "claim", "score"],
+        "properties": { "id": { "type": "string" }, "claim": { "type": "string" }, "score": { "type": "number" }, "status": { "enum": ["open", "supported", "refuted"] } }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["kind", "text"],
+        "properties": { "kind": { "enum": ["observed", "inferred"] }, "text": { "type": "string" }, "unit_id": { "type": "string" } }
+      }
+    },
+    "fa_picks": {
+      "type": "object",
+      "properties": {
+        "judge": { "type": "array", "items": { "type": "string" } },
+        "subq": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "verifier": {
+      "type": ["object", "null"],
+      "properties": { "verdict": { "enum": ["holds", "dissent"] }, "reason": { "type": "string" } }
+    },
+    "metric_summary": {
+      "type": "object",
+      "required": ["scenarios", "label"],
+      "properties": {
+        "scenarios": { "type": "integer" },
+        "label": { "enum": ["headline", "illustration"] },
+        "subq_mean": { "type": "number" },
+        "random_mean": { "type": "number" },
+        "worst_first_mean": { "type": "number" },
+        "variance": { "type": "number" }
+      }
+    }
+  },
+  "additionalProperties": false
+}

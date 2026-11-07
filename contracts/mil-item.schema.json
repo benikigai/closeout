@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Closeout MIL item (MongoDB $jsonSchema source of truth)",
+  "type": "object",
+  "required": ["failure_name", "station", "units_failed", "units_tested", "failure_rate", "root_cause", "category", "status"],
+  "properties": {
+    "jira_url": { "type": ["string", "null"] },
+    "failure_name": { "type": "string" },
+    "station": { "type": "string" },
+    "units_failed": { "type": "integer", "minimum": 0 },
+    "units_tested": { "type": "integer", "minimum": 0 },
+    "failure_rate": { "type": "number", "minimum": 0, "maximum": 1 },
+    "fa_steps": { "type": "array", "items": { "type": "string" } },
+    "fa_findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["finding_id", "unit_id", "finding"],
+        "properties": {
+          "finding_id": { "type": "string" },
+          "unit_id": { "type": "string" },
+          "finding": { "type": "string" }
+        }
+      }
+    },
+    "root_cause": {
+      "type": "object",
+      "required": ["text", "status"],
+      "properties": {
+        "text": { "type": "string" },
+        "status": { "enum": ["suspected", "confirmed"] },
+        "fa_finding_ids": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "corrective_action": {
+      "type": ["object", "null"],
+      "properties": {
+        "description": { "type": "string" },
+        "diff_ref": { "type": ["string", "null"] }
+      }
+    },
+    "category": { "enum": ["Quality", "Hardware", "Sensing", "Camera", "Test Station", "Assembly", "Operator", "Firmware", "Material", "Software"] },
+    "category_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["category", "at"],
+        "properties": { "category": { "type": "string" }, "at": { "type": "string" }, "by": { "type": "string" } }
+      }
+    },
+    "etc_ca": { "type": ["string", "null"] },
+    "etc_monitoring": { "type": ["string", "null"] },
+    "status": { "enum": ["open", "assessing", "suspected", "confirmed", "monitoring", "closed", "blocked_cheat"] },
+    "truth_label": { "enum": ["live", "fixture", "replay", "simulated"] }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,94 @@
+{
+  "builds": [
+    {
+      "build_role": "demo",
+      "known_bad_count": 2,
+      "logs_sha256": "21fb22042f7b7e0a57dd45d2a0eed154df364b3d006a5749a30edbc17d127f2e",
+      "records_checked": 768,
+      "seed": 7,
+      "tests": {
+        "T-AUD-01": {
+          "failed": 26,
+          "failure_rate": 0.203125,
+          "tested": 128
+        },
+        "T-BLE-01": {
+          "failed": 0,
+          "failure_rate": 0.0,
+          "tested": 128
+        },
+        "T-IMU-01": {
+          "failed": 0,
+          "failure_rate": 0.0,
+          "tested": 128
+        },
+        "T-OPT-01": {
+          "failed": 36,
+          "failure_rate": 0.28125,
+          "tested": 128
+        },
+        "T-PWR-01": {
+          "failed": 0,
+          "failure_rate": 0.0,
+          "tested": 128
+        },
+        "T-TCH-01": {
+          "failed": 27,
+          "failure_rate": 0.2109375,
+          "tested": 128
+        }
+      },
+      "truth_label": "simulated",
+      "unit_failure_rate": 0.6953125,
+      "units_failed": 89,
+      "units_tested": 128
+    },
+    {
+      "build_role": "heldout",
+      "known_bad_count": 2,
+      "logs_sha256": "8145d8444ee1d204caef6b83b60459b92a34c6583888c0343fb6c74d9d87faab",
+      "records_checked": 768,
+      "seed": 29,
+      "tests": {
+        "T-AUD-01": {
+          "failed": 20,
+          "failure_rate": 0.15625,
+          "tested": 128
+        },
+        "T-BLE-01": {
+          "failed": 0,
+          "failure_rate": 0.0,
+          "tested": 128
+        },
+        "T-IMU-01": {
+          "failed": 0,
+          "failure_rate": 0.0,
+          "tested": 128
+        },
+        "T-OPT-01": {
+          "failed": 30,
+          "failure_rate": 0.234375,
+          "tested": 128
+        },
+        "T-PWR-01": {
+          "failed": 0,
+          "failure_rate": 0.0,
+          "tested": 128
+        },
+        "T-TCH-01": {
+          "failed": 33,
+          "failure_rate": 0.2578125,
+          "tested": 128
+        }
+      },
+      "truth_label": "simulated",
+      "unit_failure_rate": 0.6484375,
+      "units_failed": 83,
+      "units_tested": 128
+    }
+  ],
+  "generator_version": 1,
+  "independent_seed_7_diff": "empty",
+  "task": 2,
+  "truth_label": "simulated"
+}
