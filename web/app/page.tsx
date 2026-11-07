@@ -1,7 +1,7 @@
 import run from "@/data/run.json";
 import measured from "@/data/demo-payload.json";
 import Closeout from "@/components/Closeout";
-import BeaconExploded from "@/components/BeaconExploded";
+import DemoStage from "@/components/DemoStage";
 
 export default function Page() {
   // SubQ's FA picks stay on the server until the judge sends their own.
@@ -9,7 +9,7 @@ export default function Page() {
   return (
     <>
       <Closeout run={{ ...run, fa }} measured={measured} />
-      <BeaconExploded />
+      <DemoStage />
     </>
   );
 }

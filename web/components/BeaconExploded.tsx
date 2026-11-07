@@ -9,12 +9,14 @@ import * as THREE from "three";
 
 type Layer = { mesh: THREE.Mesh; y0: number; dy: number; label: string };
 
-export default function BeaconExploded() {
+export default function BeaconExploded({ fixed: fixedProp, onToggle }: { fixed?: boolean; onToggle?: () => void } = {}) {
   const mount = useRef<HTMLDivElement>(null);
   const layers = useRef<Layer[]>([]);
   const leds = useRef<THREE.MeshStandardMaterial[]>([]);
   const [explode, setExplode] = useState(0.65);
-  const [fixed, setFixed] = useState(false);
+  const [internalFixed, setInternalFixed] = useState(false);
+  const fixed = fixedProp ?? internalFixed;
+  const setFixed = (v: boolean) => { if (onToggle) onToggle(); else setInternalFixed(v); };
   const explodeRef = useRef(explode);
   explodeRef.current = explode;
   const fixedRef = useRef(fixed);
