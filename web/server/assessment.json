@@ -1,0 +1,31 @@
+{
+  "truth_label": "replay",
+  "source": "Saved SubQ assessment, seed 7",
+  "model": "subq-snap-1.1",
+  "units_tested": 60,
+  "units_failed": 24,
+  "scores": [
+    {
+      "id": "H1",
+      "claim": "LED lot defective (Material)",
+      "score": 0.12454932183027267
+    },
+    {
+      "id": "H2",
+      "claim": "Cold driver drops calibration write (Firmware)",
+      "score": 0.80186927318573
+    },
+    {
+      "id": "H3",
+      "claim": "Dome bonding haze (Assembly)",
+      "score": 0.05436046048998833
+    },
+    {
+      "id": "H4",
+      "claim": "Optical camera miscalibrated (Test Station)",
+      "score": 0.0771925151348114
+    }
+  ],
+  "category": "Firmware",
+  "next_probe": "driver_timing"
+}
