@@ -1,0 +1,94 @@
+{
+ "mil_id": "MIL-001",
+ "lifecycle": "closed",
+ "truth_label": "replay",
+ "category": "Firmware",
+ "category_history": [
+  {
+   "category": "Material",
+   "at": "triage",
+   "by": "operator"
+  },
+  {
+   "category": "Firmware",
+   "at": "assessment-2",
+   "by": "subq"
+  }
+ ],
+ "hypotheses": [
+  {
+   "id": "H1",
+   "claim": "LED lot defective (Material)",
+   "score": 0.12454932183027267,
+   "status": "refuted"
+  },
+  {
+   "id": "H2",
+   "claim": "Cold driver drops cal write (Firmware)",
+   "score": 0.80186927318573,
+   "status": "supported"
+  },
+  {
+   "id": "H3",
+   "claim": "Dome bonding haze (Assembly)",
+   "score": 0.05436046048998833,
+   "status": "open"
+  },
+  {
+   "id": "H4",
+   "claim": "Camera miscalibrated (Test Station)",
+   "score": 0.0771925151348114,
+   "status": "open"
+  }
+ ],
+ "evidence": [
+  {
+   "kind": "observed",
+   "text": "Cold LOT-B units fail T-OPT-01; warm pass",
+   "unit_id": "U-07031"
+  },
+  {
+   "kind": "observed",
+   "text": "FA: driver ready 180ms, cal write at 50ms dropped",
+   "unit_id": "U-07031"
+  },
+  {
+   "kind": "inferred",
+   "text": "Second-source cold start explains pattern",
+   "unit_id": "U-07031"
+  }
+ ],
+ "verifier": {
+  "label": "live",
+  "verdict": "holds",
+  "reason": "The fix reduced cold-start failures from 100% (202/202) to 0% (0/202) across 10 seeds while preserving detection of all 22 known-bad units, providing no basis for falsification."
+ },
+ "metric_summary": {
+  "scenarios": 24,
+  "label": "headline",
+  "subq_mean": 1,
+  "random_mean": 1.08,
+  "worst_first_mean": 3.71
+ },
+ "gates": {
+  "cheat": {
+   "attempted_fix": "widen_limit 0.05->0.24",
+   "known_bad_escaped": [
+    "U-07010"
+   ],
+   "gate": "blocked_cheat"
+  },
+  "heldout": {
+   "seeds": 10,
+   "cold_units": 202,
+   "cold_fail_before": 202,
+   "cold_fail_after_fix": 0,
+   "known_bad_still_fail": 22
+  },
+  "verifier": {
+   "label": "live",
+   "verdict": "holds",
+   "reason": "The fix reduced cold-start failures from 100% (202/202) to 0% (0/202) across 10 seeds while preserving detection of all 22 known-bad units, providing no basis for falsification."
+  }
+ }
+}
