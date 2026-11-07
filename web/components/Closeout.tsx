@@ -1,240 +1,77 @@
-"use client";
+'use client';
 
-import { useEffect, useMemo, useState } from "react";
-import type runData from "@/data/run.json";
+import { useState } from 'react';
+import type source from '@/server/assessment.json';
 
-type Run = Omit<typeof runData, "fa"> & { fa: Omit<typeof runData.fa, "subq_picks"> };
-type Opened = { results: { id: string; hypothesis: string; text: string }[]; causes: string[]; coverage: number };
-type Race = { you: Opened; subq: Opened; subq_picks: string[]; baselines: { random: number; worst_first: number } };
+type Unit = { cal_applied: number; uniformity: number; result: 'pass' | 'fail' };
+type Comparison = { before: Unit; fixed: Unit; unit: { ready_ms: number; defect: number; name: string } };
+type Heldout = { scenarios: number; units_tested: number; cold_units: number; cold_failed_before: number; cold_failed_after: number; physical_defects: number; physical_still_fail: number; warm_regressions: number; passed: boolean };
+type CaseName = 'cold' | 'warm' | 'defective';
+const steps = ['Reproduce', 'Investigate', 'Reject shortcut', 'Run correction', 'Verify held-out'];
 
-const COLORS: Record<string, string> = {
-  firmware_timing: "var(--gold)",
-  fixture_contact: "#6FA8DC",
-  assembly_guide: "#9B8CFF",
-  material_led: "var(--red)",
-};
-const pct = (x: number, d = 0) => `${(x * 100).toFixed(d)}%`;
-
-async function sha256(text: string) {
-  const bytes = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
-  return [...new Uint8Array(bytes)].map((b) => b.toString(16).padStart(2, "0")).join("");
+function Dome({ uniformity = .02, label }: { uniformity?: number; label: string }) {
+  const uneven = uniformity >= .05;
+  return <svg viewBox="0 0 320 230" className="dome" role="img" aria-label={label}>
+    <defs><radialGradient id={uneven ? 'uneven' : 'even'} cx={uneven ? '26%' : '50%'} cy="35%" r="70%"><stop offset="0%" stopColor={uneven ? '#ffdf97' : '#bbf5ce'} /><stop offset="100%" stopColor={uneven ? '#3d3026' : '#44765b'} /></radialGradient></defs>
+    <ellipse cx="160" cy="197" rx="104" ry="14" fill="#000" opacity=".3" />
+    <path d="M64 171C64 80 104 40 160 40s96 40 96 131Z" fill={`url(#${uneven ? 'uneven' : 'even'})`} stroke={uneven ? '#e0b978' : '#8dc9a2'} strokeWidth="1.5" />
+    <path d="M64 171h192v17q-96 21-192 0Z" fill="#272c31" stroke="#596069" />
+    <path d="M91 112q16-42 45-49" fill="none" stroke="#fff" opacity=".23" strokeWidth="10" strokeLinecap="round" />
+    {uneven && <path d="M186 48q65 55 58 116h-42q10-59-16-116" fill="#171c22" opacity=".42" />}
+  </svg>;
 }
 
-function Ring({ dim }: { dim: boolean }) {
-  return (
-    <svg viewBox="0 0 120 120" className="ring" role="img" aria-label={dim ? "Dim light ring" : "Bright light ring"}>
-      {Array.from({ length: 12 }, (_, i) => {
-        const a = (i / 12) * Math.PI * 2;
-        const lit = !dim || i % 3 === 0;
-        return <circle key={i} cx={60 + 44 * Math.cos(a)} cy={60 + 44 * Math.sin(a)} r={7} fill={lit ? "var(--gold)" : "#4a3f22"} opacity={lit ? 1 : 0.7} />;
-      })}
-    </svg>
-  );
-}
-
-function Step({ n, title, line, children }: { n: string; title: string; line?: string; children: React.ReactNode }) {
-  return (
-    <section className="step">
-      <p className="eyebrow">{n}</p>
-      <h2>{title}</h2>
-      {line && <p className="lede">{line}</p>}
-      {children}
-    </section>
-  );
-}
-
-type Measured = typeof import("@/data/demo-payload.json");
-
-export default function Closeout({ run, measured }: { run: Run; measured: Measured }) {
+export default function Closeout({ assessment, embedded = false }: { assessment: typeof source; embedded?: boolean }) {
   const [stage, setStage] = useState(0);
-  const [verified, setVerified] = useState<boolean | null>(null);
-  const [wall, setWall] = useState(0);
-  const [picks, setPicks] = useState<string[]>([]);
-  const [race, setRace] = useState<Race | null>(null);
-  const [error, setError] = useState("");
-  const [gate, setGate] = useState(0);
+  const [selected, setSelected] = useState<CaseName>('cold');
+  const [comparison, setComparison] = useState<Comparison | null>(null);
+  const [heldout, setHeldout] = useState<Heldout | null>(null);
+  const [cheat, setCheat] = useState<boolean | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
 
-  const hyp = useMemo(() => Object.fromEntries(run.hypotheses.map((h) => [h.id, h])), [run]);
-  const top = (subq: Record<string, number>) => Object.entries(subq).sort((a, b) => b[1] - a[1])[0];
-  const item = run.mil[0];
-  const history = item.category_history[0];
-  const flipped = !!race;
-  const closed = gate >= 2;
-
-  useEffect(() => {
-    if (stage < 2 || wall >= run.units.length) return;
-    const t = setTimeout(() => setWall((w) => Math.min(w + 6, run.units.length)), 30);
-    return () => clearTimeout(t);
-  }, [stage, wall, run.units.length]);
-
-  async function reveal() {
-    setVerified((await sha256(run.prediction.locked_text)) === run.prediction.sha256);
-    setStage(1);
+  async function call(body: object) {
+    const response = await fetch('/api/demo', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error ?? 'The run failed.');
+    return data;
   }
-
-  async function send() {
-    setError("");
-    const res = await fetch("/api/fa", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ picks }) });
-    const data = await res.json();
-    if (!res.ok) return setError(data.error);
-    setRace(data);
-    setStage(4);
+  async function advance() {
+    setBusy(true); setError('');
+    try {
+      if (stage === 0) { setComparison(await call({ action: 'compare', case: selected })); setStage(1); }
+      else if (stage === 1) setStage(2);
+      else if (stage === 2) { const result = await call({ action: 'cheat' }); setCheat(result.decision === 'blocked_cheat'); setStage(3); }
+      else if (stage === 3) { setComparison(await call({ action: 'compare', case: selected })); setStage(4); }
+      else { setHeldout(await call({ action: 'heldout' })); setStage(5); }
+    } catch (failure) { setError(failure instanceof Error ? failure.message : 'Run failed'); }
+    finally { setBusy(false); }
   }
+  function reset(next: CaseName = selected) { setSelected(next); setStage(0); setComparison(null); setHeldout(null); setCheat(null); setError(''); }
+  const result = comparison?.before;
+  const showFixed = stage >= 4;
+  const action = ['Reproduce the failure', 'Inspect the evidence', 'Test the shortcut', 'Run the corrected firmware', 'Run 20 held-out builds'][stage];
 
-  const toggle = (id: string) =>
-    setPicks((p) => (p.includes(id) ? p.filter((x) => x !== id) : p.length < run.fa.budget ? [...p, id] : p));
-
-  return (
-    <main>
-      <header className="bar">
-        <span className="brand">Close<b>o</b>ut</span>
-        <span className={`badge ${run.mode}`}>{run.mode}. Synthetic data</span>
-      </header>
-
-      <section className="hero">
-        <p className="eyebrow">Closeout</p>
-        <h1>The MIL says Material. The parts are fine.</h1>
-        <p className="lede">Closeout solves complex factory failures, physical or firmware, and closes each one only when the next build proves the fix.</p>
-        <ol className="line" aria-label="Production line">
-          {run.line.map((s) => (
-            <li key={s.id} className={stage >= 1 && s.id === item.station ? "hot" : ""}>
-              <span>{s.id}</span>{s.name}
-            </li>
-          ))}
-        </ol>
-        <div className="kinds">
-          <div><p className="eyebrow">Physical</p><p>A light guide sits out of position. FA finds it. A process change closes it.</p></div>
-          <div><p className="eyebrow">Firmware</p><p>A calibration write gets dropped. An agent patches the code. A held-out build proves it.</p></div>
-          <div><p className="eyebrow">Both</p><p>A slower part meets a cold start. Firmware assumes it is ready. No single team owns the miss.</p></div>
-        </div>
-      </section>
-
-      <Step n="01 Lock" title="The twin commits first." line="Its top failures are hashed before the build runs.">
-        <ol className="rank">{run.prediction.top.map((c) => <li key={c}>{hyp[c]?.label ?? c}</li>)}</ol>
-        <p className="hash">SHA-256 {run.prediction.sha256}</p>
-        {stage === 0 && <button onClick={reveal}>Run build {run.build}</button>}
-      </Step>
-
-      {stage >= 1 && (
-        <Step n="02 Reveal" title={`${run.score.hit_at_3} of ${run.score.of}. It missed the one that hurt most.`}>
-          <p className="check">{verified ? "Hash verified in your browser." : "Hash mismatch."}</p>
-          <div className="pareto">
-            {run.actual_pareto.map((p) => {
-              const hit = run.prediction.top.includes(p.class);
-              return (
-                <div key={p.class} className="row">
-                  <span>{hyp[p.class]?.label}</span>
-                  <i style={{ width: `${(p.units / run.units.length) * 100}%`, background: COLORS[p.class] }} />
-                  <em>{p.units} {hit ? "predicted" : "missed"}</em>
-                </div>
-              );
-            })}
-          </div>
-          <p className="note">Chance on {run.score.K} classes is {run.score.chance_rate} of {run.score.of}. Twin covers {pct(run.addressable_share)} of these units.</p>
-          {stage === 1 && <button onClick={() => setStage(2)}>Fill the MIL</button>}
-        </Step>
-      )}
-
-      {stage >= 2 && (
-        <Step n="03 MIL" title={`${run.subq_call.units} questions. One call.`} line={`SubQ Snap read every failed unit in ${run.subq_call.seconds} seconds.`}>
-          <div className="wall" aria-label="SubQ scores by unit">
-            {run.units.map((u, i) => {
-              const [h, p] = top(u.subq);
-              return <b key={u.id} title={`${u.id} ${hyp[h].label} ${pct(p)}`} style={{ background: i < wall ? COLORS[h] : "var(--bg-3)", opacity: i < wall ? 0.3 + p * 0.7 : 1 }} />;
-            })}
-          </div>
-          <div className="legend">{run.hypotheses.map((h) => <span key={h.id}><i style={{ background: COLORS[h.id] }} />{h.label}</span>)}</div>
-          <table className="mil">
-            <thead><tr><th>ID</th><th>Failure</th><th>Station</th><th>Fail / tested</th><th>Rate</th><th>Category</th><th>Root cause</th><th>Status</th></tr></thead>
-            <tbody><tr>
-              <td>{item.id}</td><td>{item.failure_name}</td><td>{item.station}</td>
-              <td>{item.units_failed} / {item.units_tested}</td><td>{pct(item.failure_rate, 1)}</td>
-              <td className={flipped ? "flip" : ""}>{flipped ? history.to : history.from}</td>
-              <td>{flipped ? "Confirmed" : "Suspected"}</td><td>{closed ? "Closed" : "Open"}</td>
-            </tr></tbody>
-          </table>
-          <p className="note">Real SubQ call on seeded logs built to overlap. Top choice matched the seeded cause on {pct(run.subq_call.top_choice_accuracy)} of units. That is why FA still decides.</p>
-          {stage === 2 && <button onClick={() => setStage(3)}>Open the FA queue</button>}
-        </Step>
-      )}
-
-      {stage >= 3 && (
-        <Step n="04 FA" title={`${run.fa.budget} units. You pick. SubQ picks.`} line="FA time is the scarce thing. Spend it.">
-          <div className="units">
-            {run.units.map((u) => (
-              <button key={u.id} disabled={!!race} className={picks.includes(u.id) ? "unit on" : race?.subq_picks.includes(u.id) ? "unit sq" : "unit"} onClick={() => toggle(u.id)}>
-                <strong>{u.id}</strong>
-                <span>Lot {u.lot} F{u.fixture} H{u.hour_of_shift}</span>
-                <span>{u.temp_c}C</span>
-              </button>
-            ))}
-          </div>
-          {!race && <button onClick={send} disabled={picks.length !== run.fa.budget}>Send {picks.length} of {run.fa.budget} to FA</button>}
-          {error && <p className="check">{error}</p>}
-          {race && (
-            <div className="race">
-              {([["You", race.you], ["SubQ", race.subq]] as const).map(([name, r]) => (
-                <div key={name}>
-                  <p className="eyebrow">{name}</p>
-                  <p className="big">{pct(r.coverage)}</p>
-                  <p className="note">of failed units explained by causes found</p>
-                  {r.results.map((f) => <p key={f.id} className="finding"><b style={{ background: COLORS[f.hypothesis] }} />{f.id} {hyp[f.hypothesis].label}</p>)}
-                </div>
-              ))}
-              <p className="note wide">Same budget. Random picks average {pct(race.baselines.random)}. Worst uniformity first gets {pct(race.baselines.worst_first)}.</p>
-            </div>
-          )}
-        </Step>
-      )}
-
-      {stage >= 4 && (
-        <Step n="05 Truth" title="The parts were fine." line={history.reason}>
-          <div className="rings"><Ring dim /><span>Cold</span><Ring dim={false} /><span>Warm</span></div>
-          <p className="note">Category moved from {history.from} to {history.to}. Root cause confirmed by FA, never by a model.</p>
-          {stage === 4 && <button onClick={() => setStage(5)}>Change the twin</button>}
-        </Step>
-      )}
-
-      {stage >= 5 && (
-        <Step n="06 Gate" title="A perfect score on the last build means nothing." line="Muse writes the change. Gemini attacks it. A build it never saw decides.">
-          {run.changes.slice(0, gate + 1).map((c) => (
-            <article key={c.id} className={`change ${c.decision}`}>
-              <h3>Change {c.id}. {c.summary}</h3>
-              <pre>{c.diff}</pre>
-              <dl>
-                <div><dt>Build N</dt><dd>{c.build_n_score}</dd></div>
-                <div><dt>Held out</dt><dd>{c.heldout_score}</dd></div>
-                <div><dt>Decision</dt><dd>{c.decision}</dd></div>
-              </dl>
-              <p className="note">Gemini. {c.gemini}</p>
-            </article>
-          ))}
-          {run.mode === "fixture" && <p className="note">Fixture. Scores are computed on seeded builds. Change text and the Gemini note are placeholders until the engine run lands.</p>}
-          {gate < 2 && <button onClick={() => setGate(gate + 1)}>{gate === 0 ? "Try the next change" : "Close the item"}</button>}
-        </Step>
-      )}
-
-      {closed && (
-        <Step n="07 Closed" title={`${item.id} closed.`} line="Firmware. Confirmed by FA. Held on a build it never saw.">
-          <p className="law">Close it on the next build.</p>
-          <p className="note">All data here is synthetic and seeded. This shows the loop, not the physics. Station names are placeholders.</p>
-        </Step>
-      )}
-
-      <Step n="08 Measured" title="Measured loop. Real calls, cached honestly." line={`State: ${measured.truth_label}. Scores below came from live SubQ, Gemini, firmware, and Atlas runs on 2026-11-07. Called scores, never calibrated probabilities.`}>
-        <div className="pareto">
-          {measured.hypotheses.map((h) => (
-            <div key={h.id} className="row">
-              <span>{h.claim}</span>
-              <i style={{ width: `${Math.round((h.score ?? 0) * 100)}%`, background: "var(--gold)" }} />
-              <em>{h.score?.toFixed(3)} {h.status}</em>
-            </div>
-          ))}
-        </div>
-        <p className="note">FA investigations to root cause across {measured.metric_summary.scenarios} scenarios: Closeout {measured.metric_summary.subq_mean}, random {measured.metric_summary.random_mean}, worst-first {measured.metric_summary.worst_first_mean}.</p>
-        <p className="note">Gemini blind verdict: {measured.verifier.verdict}. {measured.verifier.reason}</p>
-        <p className="note">Cheat gate: {measured.gates.cheat.gate}. Held out: {measured.gates.heldout.cold_fail_before} cold failures before, {measured.gates.heldout.cold_fail_after_fix} after, {measured.gates.heldout.known_bad_still_fail} known-bad still failing. MIL lifecycle in Atlas: {measured.lifecycle}, category {measured.category}.</p>
-      </Step>
-    </main>
-  );
+  const Wrap = embedded ? 'div' : 'main';
+  return <Wrap className={embedded ? 'bench-embed' : undefined}>
+    {!embedded && <header className="topbar"><a href="#" className="wordmark">closeout<span>.</span></a><div className="run-label"><span className="live-dot" />Live C execution <span className="divider">/</span> Synthetic factory</div><a className="repo" href="https://github.com/benikigai/closeout" target="_blank" rel="noreferrer">Source ↗</a></header>}
+    {!embedded && <section className="intro"><p className="eyebrow">AIE CODE SUMMIT · NOV 07, 2026</p><h1>The parts are fine.<br /><span>The firmware is early.</span></h1><p className="lede">A cold driver drops a calibration write. Find the cause, block the shortcut, and let the next build judge the correction.</p></section>}
+    <nav className="steps" aria-label="Demo progress">{steps.map((step, i) => <span key={step} className={stage > i ? 'done' : stage === i ? 'active' : ''}><b>{stage > i ? '✓' : String(i + 1).padStart(2, '0')}</b>{step}</span>)}</nav>
+    <section className="bench">
+      <div className="bench-head"><div><p className="eyebrow">THE VIRTUAL TEST BENCH</p><h2>{selected === 'cold' ? 'Cold Dome' : selected === 'warm' ? 'Warm control' : 'Physical defect control'}</h2></div><span className="tag">S8 · FUNCTIONAL TEST</span></div>
+      <div className="case-picker" aria-label="Unit conditions">{([['cold', 'Cold start'], ['warm', 'Warm control'], ['defective', 'Known-bad dome']] as const).map(([id, name]) => <button key={id} disabled={busy} className={selected === id ? 'selected' : ''} onClick={() => reset(id)}>{name}</button>)}</div>
+      <div className="bench-grid"><article className="beacon-panel"><div className="panel-title"><span>As shipped</span><span className="tag">{result ? 'LIVE RESULT' : 'PREVIEW'}</span></div><Dome uniformity={result?.uniformity ?? (selected === 'warm' ? .02 : .18)} label="Beacon running the original firmware" /><div className="result-line"><strong className={result?.result === 'fail' ? 'red' : result ? 'green' : ''}>{result ? result.result.toUpperCase() : 'READY'}</strong><span>Uniformity error <b>{result ? result.uniformity.toFixed(2) : '—'}</b></span></div><p className="small">{comparison ? `Driver ready at ${comparison.unit.ready_ms} ms. Calibration ${result?.cal_applied ? 'applied' : 'missing'}.` : 'Run the test to measure this unit.'}</p></article>
+      <article className="beacon-panel fixed"><div className="panel-title"><span>After correction</span><span className="tag">{showFixed ? 'LIVE RESULT' : 'WAITING'}</span></div><Dome uniformity={showFixed ? comparison?.fixed.uniformity : .02} label="Beacon running the corrected firmware" /><div className="result-line"><strong className={showFixed ? comparison?.fixed.result === 'pass' ? 'green' : 'red' : ''}>{showFixed ? comparison?.fixed.result.toUpperCase() : 'NOT SHOWN'}</strong><span>Uniformity error <b>{showFixed ? comparison?.fixed.uniformity.toFixed(2) : '—'}</b></span></div><p className="small">{showFixed ? 'Same unit. Same test limit. Different compiled firmware.' : 'A passing result must come from running the correction.'}</p></article></div>
+      <div className="action-bar"><p>{busy ? 'Running on the server. No model decides the result.' : stage === 5 ? heldout?.passed ? 'Held-out checks passed. Evidence is below.' : 'Held-out checks failed. The correction is not accepted.' : ['Start with a measured failure.', 'Trace the timing before blaming the lot.', 'A wider limit can hide a real defect.', 'Wait for the driver, then write calibration.', 'Fresh seeds. Physical controls. The same limit.'][stage]}</p>{stage < 5 ? <button className="primary" disabled={busy} onClick={advance}>{busy ? 'Running…' : action}<span>→</span></button> : <button className="primary" onClick={() => reset()}>Run again <span>↺</span></button>}</div>
+      {error && <p role="alert" className="error">{error}</p>}
+    </section>
+    <div className="evidence-grid">
+    <section className="evidence-panel"><div className="section-head"><p className="eyebrow">01 / ASSESSMENT</p><span className="tag replay">REPLAY</span></div><h2>Scores suggest.<br />Evidence decides.</h2><p className="small">Recorded SubQ assessment: {assessment.units_failed} failed units out of {assessment.units_tested}. These are ranking scores, not calibrated probabilities.</p><div className="score-wall">{assessment.scores.map(h => <div key={h.id} className="score-row"><div><span>{h.claim.replace(/ \(.+\)/, '')}</span><b>{h.score.toFixed(3)}</b></div><i><em style={{ width: `${h.score * 100}%` }} /></i></div>)}</div><p className="small">Top score is below the 0.85 confirmation threshold. This screen does not mark a root cause confirmed.</p></section>
+    <section className="evidence-panel"><div className="section-head"><p className="eyebrow">02 / OBSERVATIONS</p><span className="tag">{stage >= 2 ? 'RECORDED TRACE' : 'WAITING'}</span></div><h2>What we know.<br />What we infer.</h2>{stage >= 2 ? <ul className="evidence"><li><span className="observed">OBSERVED · SIMULATED</span>Cold driver ready at 180 ms. Original write scheduled at 50 ms. Calibration readback is empty.</li><li><span className="inferred">INFERRED</span>The driver was not ready when the firmware wrote calibration.</li><li><span className="observed">CONTROL</span>Warm driver ready at 20 ms. The original firmware passes the same optical limit.</li></ul> : <p className="small placeholder">Run the unit, then inspect the saved engine trace.</p>}</section>
+    </div>
+    {stage >= 3 && <section className="gate-panel"><div className="section-head"><p className="eyebrow">03 / THE SHORTCUT</p><span className="tag">LIVE C RESULT + CODE CHECK</span></div><h2 className={cheat ? 'red' : ''}>{cheat ? 'The shortcut passes the wrong unit.' : 'The shortcut check did not block.'}</h2><p>Raise the optical limit from 0.05 to 0.24 and a physically defective dome measuring 0.22 passes. The negative control blocks that change.</p><pre><code><span className="red">− uniformity &lt; 0.24  // hides a physical defect</span>{'\n'}+ uniformity &lt; 0.05  // original limit retained</code></pre><p className="small">This is the demo’s measured negative-control check. No production ledger mutation is performed.</p></section>}
+    {stage >= 4 && <section className="gate-panel"><div className="section-head"><p className="eyebrow">04 / THE CORRECTION</p><span className="tag">REAL COMPILED C</span></div><h2>Change the timing.<br />Keep the standard.</h2><pre><code>{'while (!hal_led_driver_ready()) hal_delay_ms(10);\nif (hal_led_write_cal(CAL_TARGET)) return 1;\nhal_delay_ms(10);\nreturn hal_led_write_cal(CAL_TARGET);'}</code></pre><p className="small">An unchanged snapshot of Muse’s correction, compiled on the deployment builder. Both revisions execute against the same synthetic HAL.</p></section>}
+    {heldout && <section className={`heldout ${heldout.passed ? 'passed' : 'failed'}`}><div className="section-head"><p className="eyebrow">05 / HELD-OUT VERIFICATION</p><span className="tag">LIVE C EXECUTION</span></div><h2>{heldout.passed ? 'The next builds hold.' : 'The correction failed verification.'}</h2><div className="metrics"><div><strong>{heldout.scenarios}</strong><span>fresh scenario seeds</span></div><div><strong>{heldout.cold_failed_before} → {heldout.cold_failed_after}</strong><span>cold-unit failures</span></div><div><strong>{heldout.physical_still_fail}/{heldout.physical_defects}</strong><span>physical defects still rejected</span></div></div><p className="small">{heldout.units_tested} virtual units ran through both binaries. Warm-control regressions: {heldout.warm_regressions}. This verifies the firmware correction, not physical-world yield.</p><p className="limit-note">MIL state: suspected. Live FA confirmation, independent verification, and the MongoDB closeout gate are still separate integrations.</p></section>}
+    {!embedded && <footer><strong>Failure in. Evidence out.</strong><p>Standalone hackathon prototype. Fictional beacon, synthetic measurements.<br />Live C execution · SubQ assessment replay · No live model calls or customer data.</p><a href="https://github.com/benikigai/closeout" target="_blank" rel="noreferrer">Inspect the source ↗</a></footer>}
+  </Wrap>;
 }
