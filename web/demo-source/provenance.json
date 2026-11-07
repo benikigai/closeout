@@ -1,0 +1,13 @@
+{
+  "source": "Muse engine snapshot, AIE Code Summit, 2026-11-07",
+  "files_sha256": {
+    "before/hal.h": "67bdd906b727e19e06a67744baa16e0e30e33aa3a5bbd03b22b975c1103dc764",
+    "before/hal.c": "47e0ca6aadfd94ff174e012ee1865be05727c23a6728169386a61feb497d9a63",
+    "before/firmware.c": "ff206ef61a2e6a5bd5e7c3497d726c10b7a84514addc81931e59fc249f0c85e5",
+    "before/main.c": "aea8e7c5f5e1c7bd25dd44bfa8550b8c76375b4e7241388a04de0fcfaccba4e5",
+    "fixed/hal.h": "67bdd906b727e19e06a67744baa16e0e30e33aa3a5bbd03b22b975c1103dc764",
+    "fixed/hal.c": "47e0ca6aadfd94ff174e012ee1865be05727c23a6728169386a61feb497d9a63",
+    "fixed/firmware.c": "8e59604a3d07f6310658599597c840c5f1d2f79df6464f4a4e2374c37b8cfc81",
+    "fixed/main.c": "aea8e7c5f5e1c7bd25dd44bfa8550b8c76375b4e7241388a04de0fcfaccba4e5"
+  }
+}
