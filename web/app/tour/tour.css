@@ -1,0 +1,84 @@
+/* 60-second tour. A fixed 1920x1080 stage, scaled to fit the window. */
+.tour { position: fixed; inset: 0; background: #0b0d0f; overflow: hidden; }
+.tour .stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; background: #101316; overflow: hidden;
+  font-family: 'Archivo', Arial, Helvetica, sans-serif; color: #f0eee7; }
+.tour .scene { position: absolute; inset: 0; }
+.tour .mono { font-family: 'Martian Mono', ui-monospace, monospace; letter-spacing: 0.04em; }
+.tour .w { display: inline-block; will-change: transform; }
+
+.tour .hl { margin: 0; font-size: 84px; font-weight: 800; letter-spacing: -0.045em; line-height: 1.02; color: #f0eee7; }
+.tour .sub { margin: 0; font-size: 28px; line-height: 1.45; color: #a5adb3; letter-spacing: -0.01em; }
+.tour .mark { font-size: 230px; font-weight: 800; letter-spacing: -0.055em; line-height: 1; color: #f0eee7; }
+.tour .mark > span { color: #edc577; }
+.tour .tag-l { font-size: 64px; font-weight: 800; letter-spacing: -0.035em; }
+
+/* MIL row and theory chips */
+.tour .row-card { display: flex; gap: 0; border: 1px solid #30373d; background: #171c20; padding: 30px 34px; }
+.tour .row-card > div { display: flex; flex-direction: column; gap: 14px; }
+.tour .cell-v { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; min-height: 42px; white-space: nowrap; }
+.tour .pill { display: inline-block; align-self: flex-start; font-size: 30px; font-weight: 700; color: #edc577; border: 2px solid #edc577; padding: 2px 18px; transform-origin: left center; }
+.tour .chip { flex: 1; border: 1px solid #30373d; padding: 26px 30px; display: flex; flex-direction: column; gap: 12px; }
+.tour .chip-t { font-size: 40px; font-weight: 800; letter-spacing: -0.03em; }
+
+/* Triage wall */
+.tour .tile { position: absolute; border-radius: 4px; }
+.tour .leg { display: grid; grid-template-columns: 18px 280px 1fr 50px; align-items: center; gap: 14px; margin-top: 12px; font-size: 22px; color: #a5adb3; }
+.tour .leg i { width: 14px; height: 14px; border-radius: 3px; display: block; }
+.tour .leg em { display: block; height: 10px; background: #1d2328; }
+.tour .leg s { display: block; height: 10px; text-decoration: none; }
+.tour .leg b { font-family: 'Martian Mono', monospace; font-weight: 500; font-size: 17px; color: #f0eee7; text-align: right; }
+.tour .finding { display: grid; grid-template-columns: 140px 1fr; align-items: baseline; gap: 10px; font-size: 27px; padding: 12px 0; border-bottom: 1px solid #30373d; }
+.tour .cat { font-size: 132px; font-weight: 800; letter-spacing: -0.05em; line-height: 1.04; }
+.tour .strike { position: absolute; left: -2%; top: 54%; height: 9px; background: #f49283; display: block; }
+
+/* Beacon */
+.tour .tb { position: relative; }
+.tour .tb-canvas, .tour .tb-canvas canvas { position: absolute; inset: 0; }
+.tour .tb-tag { position: absolute; left: 0; top: 0; display: flex; align-items: center; gap: 0; pointer-events: none; text-shadow: 0 0 14px #101316, 0 0 6px #101316, 0 0 2px #101316; }
+.tour .tb-tag i { width: 14px; height: 14px; border-radius: 50%; border: 3px solid #edc577; margin: -7px 0 0 -7px; flex: none; }
+.tour .tb-tag i::after { content: ''; display: block; width: 90px; height: 2px; background: #edc577; margin: 3px 0 0 11px; }
+.tour .tb-tag span { margin-left: 100px; margin-top: -6px; display: flex; flex-direction: column; font-size: 24px; color: #a5adb3; white-space: nowrap; }
+.tour .tb-tag b { color: #f0eee7; font-size: 30px; }
+.tour .tb-tag em { font-style: normal; font-family: 'Martian Mono', monospace; font-size: 18px; color: #7fa9d6; margin-top: 6px; }
+
+/* Fix */
+.tour .code { border: 1px solid #30373d; background: #171c20; padding: 26px 30px; }
+.tour .code pre { margin: 18px 0 0; font-family: 'Martian Mono', monospace; font-size: 20px; line-height: 2.05; white-space: pre; overflow: hidden; border: 0; padding: 0; background: none; }
+.tour .code pre > span { display: block; padding: 0 12px; }
+.tour .code .ctx { color: #6e7b85; }
+.tour .code .del { color: #f49283; background: rgba(244, 146, 131, 0.1); }
+.tour .code .add { color: #acd5b7; background: rgba(172, 213, 183, 0.1); min-height: 39px; }
+.tour .result { display: flex; justify-content: space-between; align-items: baseline; border-top: 1px solid #30373d; margin: 18px 0 12px; padding-top: 18px; }
+.tour .result span { font-family: 'Martian Mono', monospace; font-size: 22px; }
+.tour .result b { font-size: 54px; font-weight: 800; letter-spacing: -0.02em; }
+
+/* Cheat */
+.tour .stamp { font-size: 130px; font-weight: 800; letter-spacing: 0.02em; color: #f49283; border: 10px solid #f49283; padding: 6px 34px 0; line-height: 1.05; }
+
+/* Doubt */
+.tour .card { border: 1px solid #30373d; background: #171c20; padding: 30px 34px; min-height: 430px; display: flex; flex-direction: column; gap: 18px; }
+.tour .card.dim { background: #13171a; }
+.tour .card-t { font-size: 34px; font-weight: 800; letter-spacing: -0.02em; }
+.tour .redact { display: block; height: 16px; background: #262c31; border-radius: 3px; }
+.tour .card-k { display: flex; flex-direction: column; gap: 8px; }
+.tour .card-k > span { font-size: 30px; font-weight: 700; letter-spacing: -0.02em; min-height: 36px; }
+.tour .ev { display: grid; grid-template-columns: 116px 1fr; align-items: baseline; font-size: 21px; color: #a5adb3; }
+.tour .verdict { display: flex; align-items: baseline; gap: 22px; border-top: 1px solid #30373d; padding-top: 16px; margin-top: auto; transform-origin: left center; }
+.tour .verdict b { font-size: 48px; font-weight: 800; letter-spacing: -0.03em; }
+
+/* Proof */
+.tour .gc { position: absolute; width: 26px; height: 26px; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+.tour .gc i { width: 10px; height: 10px; background: #101316; border-radius: 2px; display: block; }
+.tour .stat { display: flex; flex-direction: column; gap: 6px; }
+.tour .stat strong { font-size: 84px; font-weight: 800; letter-spacing: -0.035em; line-height: 1; white-space: nowrap; }
+.tour .stat > span { font-size: 21px; color: #a5adb3; max-width: 300px; }
+.tour .pass { display: inline-block; font-size: 40px; font-weight: 800; letter-spacing: 0.04em; border: 4px solid; padding: 12px 26px; }
+
+/* End */
+.tour .logo { border: 1px solid #30373d; padding: 16px 26px; font-weight: 700; font-size: 22px; color: #a5adb3; }
+
+/* Chrome */
+.tour .truth { position: absolute; right: 120px; bottom: 44px; text-align: right; font-family: 'Martian Mono', monospace; font-size: 17px; color: #a5adb3; display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
+.tour .truth > div:first-child { display: flex; align-items: center; gap: 10px; }
+.tour .truth i { width: 8px; height: 8px; border-radius: 50%; display: block; }
+.tour .truth .fict { font-size: 14px; color: #6e7b85; }
