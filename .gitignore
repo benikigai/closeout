@@ -1,0 +1,9 @@
+node_modules
+.next
+.env*
+.vercel
+next-env.d.ts
+*.tsbuildinfo
+__pycache__
+# FA answers stay out of the public repo. Regenerate with web/scripts/make_fixture.py
+web/data/sealed.json

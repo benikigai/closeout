@@ -1,0 +1,2373 @@
+{
+ "contract": 0,
+ "mode": "fixture",
+ "generated_at": "2026-11-07T20:18:36.728409+00:00",
+ "build": "N",
+ "subq_call": {
+  "model": "subq-snap-1.1",
+  "units": 128,
+  "seconds": 2.54,
+  "input_tokens": 19778,
+  "top_choice_accuracy": 0.414,
+  "calibration": {
+   "0.2-0.4": {
+    "n": 53,
+    "conf": 0.336,
+    "acc": 0.321
+   },
+   "0.4-0.6": {
+    "n": 30,
+    "conf": 0.465,
+    "acc": 0.267
+   },
+   "0.6-0.8": {
+    "n": 14,
+    "conf": 0.683,
+    "acc": 0.429
+   },
+   "0.8-1.0": {
+    "n": 31,
+    "conf": 0.932,
+    "acc": 0.71
+   }
+  }
+ },
+ "line": [
+  {
+   "id": "S1",
+   "name": "Board in"
+  },
+  {
+   "id": "S2",
+   "name": "Flash"
+  },
+  {
+   "id": "S3",
+   "name": "Ring"
+  },
+  {
+   "id": "S4",
+   "name": "Guide"
+  },
+  {
+   "id": "S5",
+   "name": "Close"
+  },
+  {
+   "id": "S6",
+   "name": "Optical"
+  },
+  {
+   "id": "S7",
+   "name": "Audio"
+  },
+  {
+   "id": "S8",
+   "name": "Pack"
+  }
+ ],
+ "prediction": {
+  "locked_text": "{\"build\": \"N\", \"made\": \"before build N\", \"top\": [\"assembly_guide\", \"material_led\", \"fixture_contact\"]}",
+  "sha256": "d90fb9c00078eb319bc8a591d05caa3b5690ddd17c0734a3a8ea6f512cd29131",
+  "top": [
+   "assembly_guide",
+   "material_led",
+   "fixture_contact"
+  ]
+ },
+ "actual_pareto": [
+  {
+   "class": "firmware_timing",
+   "units": 52
+  },
+  {
+   "class": "fixture_contact",
+   "units": 34
+  },
+  {
+   "class": "assembly_guide",
+   "units": 26
+  },
+  {
+   "class": "material_led",
+   "units": 16
+  }
+ ],
+ "score": {
+  "hit_at_3": 2,
+  "of": 3,
+  "K": 9,
+  "chance_rate": 1.0,
+  "baselines": {}
+ },
+ "addressable_share": 0.594,
+ "hypotheses": [
+  {
+   "id": "firmware_timing",
+   "label": "Firmware timing",
+   "category": "Firmware"
+  },
+  {
+   "id": "fixture_contact",
+   "label": "Test fixture",
+   "category": "Test Station"
+  },
+  {
+   "id": "assembly_guide",
+   "label": "Light guide seating",
+   "category": "Assembly"
+  },
+  {
+   "id": "material_led",
+   "label": "LED material",
+   "category": "Material"
+  }
+ ],
+ "units": [
+  {
+   "id": "U0001",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 2,
+   "hour_of_shift": 1,
+   "temp_c": 18.0,
+   "retest": "fail",
+   "guide_offset_mm": 0.13,
+   "uniformity": 0.7,
+   "subq": {
+    "firmware_timing": 0.3249,
+    "fixture_contact": 0.362,
+    "assembly_guide": 0.1672,
+    "material_led": 0.1459
+   }
+  },
+  {
+   "id": "U0002",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 1,
+   "temp_c": 18.0,
+   "retest": "fail",
+   "guide_offset_mm": 0.08,
+   "uniformity": 0.69,
+   "subq": {
+    "firmware_timing": 0.3217,
+    "fixture_contact": 0.3731,
+    "assembly_guide": 0.1294,
+    "material_led": 0.1759
+   }
+  },
+  {
+   "id": "U0003",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 1,
+   "temp_c": 17.2,
+   "retest": "fail",
+   "guide_offset_mm": 0.1,
+   "uniformity": 0.76,
+   "subq": {
+    "firmware_timing": 0.3369,
+    "fixture_contact": 0.3455,
+    "assembly_guide": 0.1891,
+    "material_led": 0.1285
+   }
+  },
+  {
+   "id": "U0004",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 2,
+   "hour_of_shift": 1,
+   "temp_c": 18.7,
+   "retest": "pass",
+   "guide_offset_mm": 0.04,
+   "uniformity": 0.72,
+   "subq": {
+    "firmware_timing": 0.2872,
+    "fixture_contact": 0.3657,
+    "assembly_guide": 0.1515,
+    "material_led": 0.1956
+   }
+  },
+  {
+   "id": "U0005",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 3,
+   "temp_c": 28.0,
+   "retest": "fail",
+   "guide_offset_mm": 0.24,
+   "uniformity": 0.73,
+   "subq": {
+    "firmware_timing": 0.0369,
+    "fixture_contact": 0.0298,
+    "assembly_guide": 0.917,
+    "material_led": 0.0164
+   }
+  },
+  {
+   "id": "U0006",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 2,
+   "hour_of_shift": 4,
+   "temp_c": 24.9,
+   "retest": "fail",
+   "guide_offset_mm": 0.19,
+   "uniformity": 0.73,
+   "subq": {
+    "firmware_timing": 0.0397,
+    "fixture_contact": 0.0315,
+    "assembly_guide": 0.8781,
+    "material_led": 0.0507
+   }
+  },
+  {
+   "id": "U0007",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 1,
+   "temp_c": 17.8,
+   "retest": "fail",
+   "guide_offset_mm": 0.08,
+   "uniformity": 0.63,
+   "subq": {
+    "firmware_timing": 0.0518,
+    "fixture_contact": 0.0884,
+    "assembly_guide": 0.0223,
+    "material_led": 0.8375
+   }
+  },
+  {
+   "id": "U0008",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 1,
+   "temp_c": 18.8,
+   "retest": "fail",
+   "guide_offset_mm": 0.08,
+   "uniformity": 0.71,
+   "subq": {
+    "firmware_timing": 0.3083,
+    "fixture_contact": 0.4202,
+    "assembly_guide": 0.0746,
+    "material_led": 0.1969
+   }
+  },
+  {
+   "id": "U0009",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 2,
+   "temp_c": 19.3,
+   "retest": "fail",
+   "guide_offset_mm": 0.08,
+   "uniformity": 0.78,
+   "subq": {
+    "firmware_timing": 0.2536,
+    "fixture_contact": 0.4339,
+    "assembly_guide": 0.1092,
+    "material_led": 0.2032
+   }
+  },
+  {
+   "id": "U0010",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 1,
+   "temp_c": 16.0,
+   "retest": "fail",
+   "guide_offset_mm": 0.03,
+   "uniformity": 0.73,
+   "subq": {
+    "firmware_timing": 0.2654,
+    "fixture_contact": 0.4806,
+    "assembly_guide": 0.0392,
+    "material_led": 0.2148
+   }
+  },
+  {
+   "id": "U0011",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 2,
+   "hour_of_shift": 2,
+   "temp_c": 20.8,
+   "retest": "pass",
+   "guide_offset_mm": 0.05,
+   "uniformity": 0.75,
+   "subq": {
+    "firmware_timing": 0.2626,
+    "fixture_contact": 0.3684,
+    "assembly_guide": 0.1248,
+    "material_led": 0.2441
+   }
+  },
+  {
+   "id": "U0012",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 2,
+   "temp_c": 22.2,
+   "retest": "fail",
+   "guide_offset_mm": 0.18,
+   "uniformity": 0.71,
+   "subq": {
+    "firmware_timing": 0.0151,
+    "fixture_contact": 0.0204,
+    "assembly_guide": 0.9533,
+    "material_led": 0.0113
+   }
+  },
+  {
+   "id": "U0013",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 2,
+   "hour_of_shift": 1,
+   "temp_c": 17.9,
+   "retest": "pass",
+   "guide_offset_mm": 0.0,
+   "uniformity": 0.71,
+   "subq": {
+    "firmware_timing": 0.2517,
+    "fixture_contact": 0.4459,
+    "assembly_guide": 0.1157,
+    "material_led": 0.1867
+   }
+  },
+  {
+   "id": "U0014",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 2,
+   "hour_of_shift": 8,
+   "temp_c": 26.3,
+   "retest": "fail",
+   "guide_offset_mm": 0.15,
+   "uniformity": 0.71,
+   "subq": {
+    "firmware_timing": 0.1463,
+    "fixture_contact": 0.0864,
+    "assembly_guide": 0.6629,
+    "material_led": 0.1044
+   }
+  },
+  {
+   "id": "U0015",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 1,
+   "hour_of_shift": 4,
+   "temp_c": 24.7,
+   "retest": "fail",
+   "guide_offset_mm": 0.18,
+   "uniformity": 0.74,
+   "subq": {
+    "firmware_timing": 0.0841,
+    "fixture_contact": 0.114,
+    "assembly_guide": 0.6785,
+    "material_led": 0.1235
+   }
+  },
+  {
+   "id": "U0016",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 1,
+   "temp_c": 24.8,
+   "retest": "pass",
+   "guide_offset_mm": 0.04,
+   "uniformity": 0.64,
+   "subq": {
+    "firmware_timing": 0.2056,
+    "fixture_contact": 0.252,
+    "assembly_guide": 0.1942,
+    "material_led": 0.3483
+   }
+  },
+  {
+   "id": "U0017",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 1,
+   "temp_c": 16.7,
+   "retest": "fail",
+   "guide_offset_mm": 0.11,
+   "uniformity": 0.69,
+   "subq": {
+    "firmware_timing": 0.2064,
+    "fixture_contact": 0.2333,
+    "assembly_guide": 0.3843,
+    "material_led": 0.176
+   }
+  },
+  {
+   "id": "U0018",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 5,
+   "temp_c": 22.8,
+   "retest": "pass",
+   "guide_offset_mm": 0.05,
+   "uniformity": 0.71,
+   "subq": {
+    "firmware_timing": 0.2174,
+    "fixture_contact": 0.3113,
+    "assembly_guide": 0.178,
+    "material_led": 0.2933
+   }
+  },
+  {
+   "id": "U0019",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 3,
+   "temp_c": 23.7,
+   "retest": "pass",
+   "guide_offset_mm": 0.11,
+   "uniformity": 0.63,
+   "subq": {
+    "firmware_timing": 0.2269,
+    "fixture_contact": 0.2335,
+    "assembly_guide": 0.2263,
+    "material_led": 0.3132
+   }
+  },
+  {
+   "id": "U0020",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 1,
+   "hour_of_shift": 4,
+   "temp_c": 24.6,
+   "retest": "fail",
+   "guide_offset_mm": 0.12,
+   "uniformity": 0.66,
+   "subq": {
+    "firmware_timing": 0.161,
+    "fixture_contact": 0.2082,
+    "assembly_guide": 0.3033,
+    "material_led": 0.3275
+   }
+  },
+  {
+   "id": "U0021",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 1,
+   "hour_of_shift": 1,
+   "temp_c": 17.7,
+   "retest": "fail",
+   "guide_offset_mm": 0.16,
+   "uniformity": 0.64,
+   "subq": {
+    "firmware_timing": 0.056,
+    "fixture_contact": 0.0766,
+    "assembly_guide": 0.7377,
+    "material_led": 0.1296
+   }
+  },
+  {
+   "id": "U0022",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 1,
+   "hour_of_shift": 1,
+   "temp_c": 19.5,
+   "retest": "fail",
+   "guide_offset_mm": 0.04,
+   "uniformity": 0.73,
+   "subq": {
+    "firmware_timing": 0.2528,
+    "fixture_contact": 0.2915,
+    "assembly_guide": 0.0557,
+    "material_led": 0.4
+   }
+  },
+  {
+   "id": "U0023",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 6,
+   "temp_c": 23.4,
+   "retest": "fail",
+   "guide_offset_mm": 0.08,
+   "uniformity": 0.7,
+   "subq": {
+    "firmware_timing": 0.2506,
+    "fixture_contact": 0.2492,
+    "assembly_guide": 0.145,
+    "material_led": 0.3552
+   }
+  },
+  {
+   "id": "U0024",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 4,
+   "temp_c": 27.6,
+   "retest": "fail",
+   "guide_offset_mm": 0.01,
+   "uniformity": 0.75,
+   "subq": {
+    "firmware_timing": 0.205,
+    "fixture_contact": 0.0867,
+    "assembly_guide": 0.6209,
+    "material_led": 0.0874
+   }
+  },
+  {
+   "id": "U0025",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 2,
+   "temp_c": 19.0,
+   "retest": "fail",
+   "guide_offset_mm": 0.11,
+   "uniformity": 0.72,
+   "subq": {
+    "firmware_timing": 0.2884,
+    "fixture_contact": 0.3196,
+    "assembly_guide": 0.2545,
+    "material_led": 0.1374
+   }
+  },
+  {
+   "id": "U0026",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 1,
+   "hour_of_shift": 2,
+   "temp_c": 16.6,
+   "retest": "fail",
+   "guide_offset_mm": 0.03,
+   "uniformity": 0.65,
+   "subq": {
+    "firmware_timing": 0.1335,
+    "fixture_contact": 0.1972,
+    "assembly_guide": 0.0252,
+    "material_led": 0.6441
+   }
+  },
+  {
+   "id": "U0027",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 1,
+   "hour_of_shift": 4,
+   "temp_c": 23.7,
+   "retest": "fail",
+   "guide_offset_mm": 0.23,
+   "uniformity": 0.72,
+   "subq": {
+    "firmware_timing": 0.0173,
+    "fixture_contact": 0.0236,
+    "assembly_guide": 0.9497,
+    "material_led": 0.0093
+   }
+  },
+  {
+   "id": "U0028",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 1,
+   "hour_of_shift": 5,
+   "temp_c": 22.2,
+   "retest": "pass",
+   "guide_offset_mm": 0.01,
+   "uniformity": 0.64,
+   "subq": {
+    "firmware_timing": 0.2737,
+    "fixture_contact": 0.316,
+    "assembly_guide": 0.1684,
+    "material_led": 0.2418
+   }
+  },
+  {
+   "id": "U0029",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 1,
+   "hour_of_shift": 1,
+   "temp_c": 18.5,
+   "retest": "fail",
+   "guide_offset_mm": 0.13,
+   "uniformity": 0.67,
+   "subq": {
+    "firmware_timing": 0.0924,
+    "fixture_contact": 0.1064,
+    "assembly_guide": 0.663,
+    "material_led": 0.1383
+   }
+  },
+  {
+   "id": "U0030",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 1,
+   "hour_of_shift": 2,
+   "temp_c": 23.8,
+   "retest": "pass",
+   "guide_offset_mm": 0.05,
+   "uniformity": 0.68,
+   "subq": {
+    "firmware_timing": 0.25,
+    "fixture_contact": 0.4388,
+    "assembly_guide": 0.1032,
+    "material_led": 0.2081
+   }
+  },
+  {
+   "id": "U0031",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 3,
+   "temp_c": 23.6,
+   "retest": "fail",
+   "guide_offset_mm": 0.31,
+   "uniformity": 0.76,
+   "subq": {
+    "firmware_timing": 0.0007,
+    "fixture_contact": 0.0014,
+    "assembly_guide": 0.9975,
+    "material_led": 0.0004
+   }
+  },
+  {
+   "id": "U0032",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 1,
+   "hour_of_shift": 4,
+   "temp_c": 22.6,
+   "retest": "fail",
+   "guide_offset_mm": 0.18,
+   "uniformity": 0.71,
+   "subq": {
+    "firmware_timing": 0.0454,
+    "fixture_contact": 0.0632,
+    "assembly_guide": 0.85,
+    "material_led": 0.0414
+   }
+  },
+  {
+   "id": "U0033",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 1,
+   "temp_c": 17.0,
+   "retest": "fail",
+   "guide_offset_mm": 0.07,
+   "uniformity": 0.71,
+   "subq": {
+    "firmware_timing": 0.2269,
+    "fixture_contact": 0.5356,
+    "assembly_guide": 0.0687,
+    "material_led": 0.1689
+   }
+  },
+  {
+   "id": "U0034",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 1,
+   "temp_c": 19.6,
+   "retest": "pass",
+   "guide_offset_mm": 0.14,
+   "uniformity": 0.72,
+   "subq": {
+    "firmware_timing": 0.2841,
+    "fixture_contact": 0.3154,
+    "assembly_guide": 0.2114,
+    "material_led": 0.1891
+   }
+  },
+  {
+   "id": "U0035",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 1,
+   "temp_c": 19.2,
+   "retest": "fail",
+   "guide_offset_mm": 0.13,
+   "uniformity": 0.69,
+   "subq": {
+    "firmware_timing": 0.3821,
+    "fixture_contact": 0.1692,
+    "assembly_guide": 0.3263,
+    "material_led": 0.1225
+   }
+  },
+  {
+   "id": "U0036",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 1,
+   "hour_of_shift": 3,
+   "temp_c": 23.3,
+   "retest": "fail",
+   "guide_offset_mm": 0.09,
+   "uniformity": 0.69,
+   "subq": {
+    "firmware_timing": 0.2126,
+    "fixture_contact": 0.316,
+    "assembly_guide": 0.1542,
+    "material_led": 0.3172
+   }
+  },
+  {
+   "id": "U0037",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 1,
+   "temp_c": 17.0,
+   "retest": "fail",
+   "guide_offset_mm": 0.09,
+   "uniformity": 0.75,
+   "subq": {
+    "firmware_timing": 0.2841,
+    "fixture_contact": 0.376,
+    "assembly_guide": 0.1177,
+    "material_led": 0.2222
+   }
+  },
+  {
+   "id": "U0038",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 2,
+   "temp_c": 17.7,
+   "retest": "pass",
+   "guide_offset_mm": 0.06,
+   "uniformity": 0.71,
+   "subq": {
+    "firmware_timing": 0.2544,
+    "fixture_contact": 0.304,
+    "assembly_guide": 0.253,
+    "material_led": 0.1886
+   }
+  },
+  {
+   "id": "U0039",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 1,
+   "hour_of_shift": 5,
+   "temp_c": 24.1,
+   "retest": "fail",
+   "guide_offset_mm": 0.33,
+   "uniformity": 0.7,
+   "subq": {
+    "firmware_timing": 0.0007,
+    "fixture_contact": 0.0011,
+    "assembly_guide": 0.9975,
+    "material_led": 0.0007
+   }
+  },
+  {
+   "id": "U0040",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 2,
+   "temp_c": 25.5,
+   "retest": "fail",
+   "guide_offset_mm": 0.04,
+   "uniformity": 0.74,
+   "subq": {
+    "firmware_timing": 0.4645,
+    "fixture_contact": 0.1567,
+    "assembly_guide": 0.1597,
+    "material_led": 0.2191
+   }
+  },
+  {
+   "id": "U0041",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 1,
+   "temp_c": 17.2,
+   "retest": "pass",
+   "guide_offset_mm": 0.12,
+   "uniformity": 0.71,
+   "subq": {
+    "firmware_timing": 0.2518,
+    "fixture_contact": 0.2458,
+    "assembly_guide": 0.2752,
+    "material_led": 0.2272
+   }
+  },
+  {
+   "id": "U0042",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 2,
+   "hour_of_shift": 1,
+   "temp_c": 17.6,
+   "retest": "fail",
+   "guide_offset_mm": 0.07,
+   "uniformity": 0.72,
+   "subq": {
+    "firmware_timing": 0.2587,
+    "fixture_contact": 0.3817,
+    "assembly_guide": 0.1648,
+    "material_led": 0.1949
+   }
+  },
+  {
+   "id": "U0043",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 2,
+   "hour_of_shift": 6,
+   "temp_c": 25.8,
+   "retest": "pass",
+   "guide_offset_mm": 0.02,
+   "uniformity": 0.72,
+   "subq": {
+    "firmware_timing": 0.2043,
+    "fixture_contact": 0.1569,
+    "assembly_guide": 0.2594,
+    "material_led": 0.3795
+   }
+  },
+  {
+   "id": "U0044",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 8,
+   "temp_c": 21.3,
+   "retest": "fail",
+   "guide_offset_mm": 0.15,
+   "uniformity": 0.72,
+   "subq": {
+    "firmware_timing": 0.0452,
+    "fixture_contact": 0.0572,
+    "assembly_guide": 0.8615,
+    "material_led": 0.0361
+   }
+  },
+  {
+   "id": "U0045",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 1,
+   "hour_of_shift": 5,
+   "temp_c": 23.8,
+   "retest": "fail",
+   "guide_offset_mm": 0.14,
+   "uniformity": 0.69,
+   "subq": {
+    "firmware_timing": 0.1711,
+    "fixture_contact": 0.2555,
+    "assembly_guide": 0.3208,
+    "material_led": 0.2527
+   }
+  },
+  {
+   "id": "U0046",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 1,
+   "hour_of_shift": 7,
+   "temp_c": 26.0,
+   "retest": "fail",
+   "guide_offset_mm": 0.2,
+   "uniformity": 0.71,
+   "subq": {
+    "firmware_timing": 0.0124,
+    "fixture_contact": 0.0114,
+    "assembly_guide": 0.9653,
+    "material_led": 0.0109
+   }
+  },
+  {
+   "id": "U0047",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 1,
+   "temp_c": 18.9,
+   "retest": "pass",
+   "guide_offset_mm": 0.01,
+   "uniformity": 0.68,
+   "subq": {
+    "firmware_timing": 0.2842,
+    "fixture_contact": 0.3122,
+    "assembly_guide": 0.1975,
+    "material_led": 0.2061
+   }
+  },
+  {
+   "id": "U0048",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 2,
+   "hour_of_shift": 2,
+   "temp_c": 17.0,
+   "retest": "pass",
+   "guide_offset_mm": 0.01,
+   "uniformity": 0.7,
+   "subq": {
+    "firmware_timing": 0.2762,
+    "fixture_contact": 0.3235,
+    "assembly_guide": 0.1603,
+    "material_led": 0.24
+   }
+  },
+  {
+   "id": "U0049",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 2,
+   "hour_of_shift": 3,
+   "temp_c": 21.8,
+   "retest": "fail",
+   "guide_offset_mm": 0.03,
+   "uniformity": 0.68,
+   "subq": {
+    "firmware_timing": 0.2513,
+    "fixture_contact": 0.244,
+    "assembly_guide": 0.0556,
+    "material_led": 0.4491
+   }
+  },
+  {
+   "id": "U0050",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 1,
+   "temp_c": 17.6,
+   "retest": "pass",
+   "guide_offset_mm": 0.02,
+   "uniformity": 0.73,
+   "subq": {
+    "firmware_timing": 0.2564,
+    "fixture_contact": 0.2682,
+    "assembly_guide": 0.1388,
+    "material_led": 0.3366
+   }
+  },
+  {
+   "id": "U0051",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 1,
+   "hour_of_shift": 1,
+   "temp_c": 22.3,
+   "retest": "fail",
+   "guide_offset_mm": 0.08,
+   "uniformity": 0.64,
+   "subq": {
+    "firmware_timing": 0.0792,
+    "fixture_contact": 0.1133,
+    "assembly_guide": 0.0492,
+    "material_led": 0.7584
+   }
+  },
+  {
+   "id": "U0052",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 1,
+   "hour_of_shift": 6,
+   "temp_c": 22.8,
+   "retest": "fail",
+   "guide_offset_mm": 0.33,
+   "uniformity": 0.7,
+   "subq": {
+    "firmware_timing": 0.0003,
+    "fixture_contact": 0.0003,
+    "assembly_guide": 0.9993,
+    "material_led": 0.0001
+   }
+  },
+  {
+   "id": "U0053",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 7,
+   "temp_c": 23.7,
+   "retest": "pass",
+   "guide_offset_mm": 0.06,
+   "uniformity": 0.69,
+   "subq": {
+    "firmware_timing": 0.2526,
+    "fixture_contact": 0.3304,
+    "assembly_guide": 0.1566,
+    "material_led": 0.2604
+   }
+  },
+  {
+   "id": "U0054",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 4,
+   "temp_c": 23.4,
+   "retest": "pass",
+   "guide_offset_mm": 0.06,
+   "uniformity": 0.69,
+   "subq": {
+    "firmware_timing": 0.3023,
+    "fixture_contact": 0.2702,
+    "assembly_guide": 0.1947,
+    "material_led": 0.2328
+   }
+  },
+  {
+   "id": "U0055",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 2,
+   "hour_of_shift": 8,
+   "temp_c": 22.8,
+   "retest": "fail",
+   "guide_offset_mm": 0.12,
+   "uniformity": 0.73,
+   "subq": {
+    "firmware_timing": 0.1387,
+    "fixture_contact": 0.1063,
+    "assembly_guide": 0.6111,
+    "material_led": 0.1439
+   }
+  },
+  {
+   "id": "U0056",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 3,
+   "temp_c": 22.6,
+   "retest": "fail",
+   "guide_offset_mm": 0.15,
+   "uniformity": 0.7,
+   "subq": {
+    "firmware_timing": 0.0529,
+    "fixture_contact": 0.0394,
+    "assembly_guide": 0.8852,
+    "material_led": 0.0225
+   }
+  },
+  {
+   "id": "U0057",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 2,
+   "temp_c": 17.7,
+   "retest": "fail",
+   "guide_offset_mm": 0.02,
+   "uniformity": 0.7,
+   "subq": {
+    "firmware_timing": 0.2075,
+    "fixture_contact": 0.5426,
+    "assembly_guide": 0.0489,
+    "material_led": 0.201
+   }
+  },
+  {
+   "id": "U0058",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 1,
+   "temp_c": 18.6,
+   "retest": "fail",
+   "guide_offset_mm": 0.07,
+   "uniformity": 0.72,
+   "subq": {
+    "firmware_timing": 0.3469,
+    "fixture_contact": 0.3729,
+    "assembly_guide": 0.1011,
+    "material_led": 0.1791
+   }
+  },
+  {
+   "id": "U0059",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 1,
+   "hour_of_shift": 2,
+   "temp_c": 19.8,
+   "retest": "fail",
+   "guide_offset_mm": 0.07,
+   "uniformity": 0.69,
+   "subq": {
+    "firmware_timing": 0.1949,
+    "fixture_contact": 0.4454,
+    "assembly_guide": 0.0591,
+    "material_led": 0.3006
+   }
+  },
+  {
+   "id": "U0060",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 7,
+   "temp_c": 24.0,
+   "retest": "pass",
+   "guide_offset_mm": 0.02,
+   "uniformity": 0.72,
+   "subq": {
+    "firmware_timing": 0.2861,
+    "fixture_contact": 0.2894,
+    "assembly_guide": 0.1084,
+    "material_led": 0.3161
+   }
+  },
+  {
+   "id": "U0061",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 2,
+   "hour_of_shift": 6,
+   "temp_c": 24.7,
+   "retest": "fail",
+   "guide_offset_mm": 0.16,
+   "uniformity": 0.69,
+   "subq": {
+    "firmware_timing": 0.04,
+    "fixture_contact": 0.0278,
+    "assembly_guide": 0.8578,
+    "material_led": 0.0744
+   }
+  },
+  {
+   "id": "U0062",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 8,
+   "temp_c": 25.8,
+   "retest": "fail",
+   "guide_offset_mm": 0.23,
+   "uniformity": 0.76,
+   "subq": {
+    "firmware_timing": 0.0016,
+    "fixture_contact": 0.0028,
+    "assembly_guide": 0.9943,
+    "material_led": 0.0014
+   }
+  },
+  {
+   "id": "U0063",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 2,
+   "hour_of_shift": 8,
+   "temp_c": 24.5,
+   "retest": "fail",
+   "guide_offset_mm": 0.06,
+   "uniformity": 0.66,
+   "subq": {
+    "firmware_timing": 0.1901,
+    "fixture_contact": 0.2377,
+    "assembly_guide": 0.0627,
+    "material_led": 0.5094
+   }
+  },
+  {
+   "id": "U0064",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 6,
+   "temp_c": 24.9,
+   "retest": "fail",
+   "guide_offset_mm": 0.11,
+   "uniformity": 0.7,
+   "subq": {
+    "firmware_timing": 0.2253,
+    "fixture_contact": 0.1618,
+    "assembly_guide": 0.2998,
+    "material_led": 0.3132
+   }
+  },
+  {
+   "id": "U0065",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 2,
+   "temp_c": 18.1,
+   "retest": "pass",
+   "guide_offset_mm": 0.08,
+   "uniformity": 0.76,
+   "subq": {
+    "firmware_timing": 0.3148,
+    "fixture_contact": 0.2575,
+    "assembly_guide": 0.1953,
+    "material_led": 0.2325
+   }
+  },
+  {
+   "id": "U0066",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 1,
+   "temp_c": 19.0,
+   "retest": "fail",
+   "guide_offset_mm": 0.02,
+   "uniformity": 0.7,
+   "subq": {
+    "firmware_timing": 0.4511,
+    "fixture_contact": 0.3077,
+    "assembly_guide": 0.0964,
+    "material_led": 0.1449
+   }
+  },
+  {
+   "id": "U0067",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 2,
+   "hour_of_shift": 4,
+   "temp_c": 22.0,
+   "retest": "pass",
+   "guide_offset_mm": 0.06,
+   "uniformity": 0.64,
+   "subq": {
+    "firmware_timing": 0.3112,
+    "fixture_contact": 0.314,
+    "assembly_guide": 0.1829,
+    "material_led": 0.1919
+   }
+  },
+  {
+   "id": "U0068",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 1,
+   "hour_of_shift": 6,
+   "temp_c": 22.3,
+   "retest": "fail",
+   "guide_offset_mm": 0.14,
+   "uniformity": 0.73,
+   "subq": {
+    "firmware_timing": 0.0978,
+    "fixture_contact": 0.1433,
+    "assembly_guide": 0.6483,
+    "material_led": 0.1107
+   }
+  },
+  {
+   "id": "U0069",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 1,
+   "temp_c": 16.9,
+   "retest": "fail",
+   "guide_offset_mm": 0.11,
+   "uniformity": 0.71,
+   "subq": {
+    "firmware_timing": 0.0792,
+    "fixture_contact": 0.118,
+    "assembly_guide": 0.728,
+    "material_led": 0.0748
+   }
+  },
+  {
+   "id": "U0070",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 2,
+   "hour_of_shift": 8,
+   "temp_c": 21.5,
+   "retest": "fail",
+   "guide_offset_mm": 0.05,
+   "uniformity": 0.69,
+   "subq": {
+    "firmware_timing": 0.2535,
+    "fixture_contact": 0.1686,
+    "assembly_guide": 0.0635,
+    "material_led": 0.5144
+   }
+  },
+  {
+   "id": "U0071",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 1,
+   "temp_c": 18.9,
+   "retest": "fail",
+   "guide_offset_mm": 0.17,
+   "uniformity": 0.66,
+   "subq": {
+    "firmware_timing": 0.0064,
+    "fixture_contact": 0.0125,
+    "assembly_guide": 0.9301,
+    "material_led": 0.051
+   }
+  },
+  {
+   "id": "U0072",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 1,
+   "temp_c": 17.6,
+   "retest": "pass",
+   "guide_offset_mm": 0.12,
+   "uniformity": 0.71,
+   "subq": {
+    "firmware_timing": 0.1808,
+    "fixture_contact": 0.4095,
+    "assembly_guide": 0.3093,
+    "material_led": 0.1004
+   }
+  },
+  {
+   "id": "U0073",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 5,
+   "temp_c": 28.1,
+   "retest": "pass",
+   "guide_offset_mm": 0.02,
+   "uniformity": 0.67,
+   "subq": {
+    "firmware_timing": 0.276,
+    "fixture_contact": 0.1429,
+    "assembly_guide": 0.3174,
+    "material_led": 0.2637
+   }
+  },
+  {
+   "id": "U0074",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 1,
+   "temp_c": 19.4,
+   "retest": "pass",
+   "guide_offset_mm": 0.09,
+   "uniformity": 0.71,
+   "subq": {
+    "firmware_timing": 0.2438,
+    "fixture_contact": 0.194,
+    "assembly_guide": 0.3276,
+    "material_led": 0.2346
+   }
+  },
+  {
+   "id": "U0075",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 1,
+   "hour_of_shift": 1,
+   "temp_c": 16.3,
+   "retest": "fail",
+   "guide_offset_mm": 0.01,
+   "uniformity": 0.66,
+   "subq": {
+    "firmware_timing": 0.2169,
+    "fixture_contact": 0.2212,
+    "assembly_guide": 0.0342,
+    "material_led": 0.5277
+   }
+  },
+  {
+   "id": "U0076",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 2,
+   "hour_of_shift": 8,
+   "temp_c": 25.0,
+   "retest": "fail",
+   "guide_offset_mm": 0.03,
+   "uniformity": 0.71,
+   "subq": {
+    "firmware_timing": 0.3129,
+    "fixture_contact": 0.0371,
+    "assembly_guide": 0.3616,
+    "material_led": 0.2884
+   }
+  },
+  {
+   "id": "U0077",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 2,
+   "hour_of_shift": 1,
+   "temp_c": 16.2,
+   "retest": "fail",
+   "guide_offset_mm": 0.15,
+   "uniformity": 0.67,
+   "subq": {
+    "firmware_timing": 0.0056,
+    "fixture_contact": 0.005,
+    "assembly_guide": 0.9654,
+    "material_led": 0.024
+   }
+  },
+  {
+   "id": "U0078",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 1,
+   "hour_of_shift": 5,
+   "temp_c": 25.5,
+   "retest": "fail",
+   "guide_offset_mm": 0.15,
+   "uniformity": 0.69,
+   "subq": {
+    "firmware_timing": 0.0904,
+    "fixture_contact": 0.0769,
+    "assembly_guide": 0.6415,
+    "material_led": 0.1912
+   }
+  },
+  {
+   "id": "U0079",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 2,
+   "hour_of_shift": 3,
+   "temp_c": 25.9,
+   "retest": "pass",
+   "guide_offset_mm": 0.04,
+   "uniformity": 0.7,
+   "subq": {
+    "firmware_timing": 0.3027,
+    "fixture_contact": 0.2371,
+    "assembly_guide": 0.2329,
+    "material_led": 0.2273
+   }
+  },
+  {
+   "id": "U0080",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 1,
+   "hour_of_shift": 1,
+   "temp_c": 19.4,
+   "retest": "fail",
+   "guide_offset_mm": 0.15,
+   "uniformity": 0.74,
+   "subq": {
+    "firmware_timing": 0.0421,
+    "fixture_contact": 0.0318,
+    "assembly_guide": 0.8811,
+    "material_led": 0.0449
+   }
+  },
+  {
+   "id": "U0081",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 1,
+   "hour_of_shift": 4,
+   "temp_c": 20.9,
+   "retest": "fail",
+   "guide_offset_mm": 0.13,
+   "uniformity": 0.69,
+   "subq": {
+    "firmware_timing": 0.1479,
+    "fixture_contact": 0.24,
+    "assembly_guide": 0.4889,
+    "material_led": 0.1233
+   }
+  },
+  {
+   "id": "U0082",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 1,
+   "temp_c": 17.5,
+   "retest": "fail",
+   "guide_offset_mm": 0.07,
+   "uniformity": 0.72,
+   "subq": {
+    "firmware_timing": 0.3078,
+    "fixture_contact": 0.3839,
+    "assembly_guide": 0.1372,
+    "material_led": 0.1711
+   }
+  },
+  {
+   "id": "U0083",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 2,
+   "hour_of_shift": 2,
+   "temp_c": 23.7,
+   "retest": "fail",
+   "guide_offset_mm": 0.23,
+   "uniformity": 0.68,
+   "subq": {
+    "firmware_timing": 0.0019,
+    "fixture_contact": 0.0043,
+    "assembly_guide": 0.9917,
+    "material_led": 0.0021
+   }
+  },
+  {
+   "id": "U0084",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 1,
+   "hour_of_shift": 2,
+   "temp_c": 18.7,
+   "retest": "fail",
+   "guide_offset_mm": 0.01,
+   "uniformity": 0.69,
+   "subq": {
+    "firmware_timing": 0.2114,
+    "fixture_contact": 0.425,
+    "assembly_guide": 0.0522,
+    "material_led": 0.3113
+   }
+  },
+  {
+   "id": "U0085",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 1,
+   "hour_of_shift": 5,
+   "temp_c": 21.4,
+   "retest": "fail",
+   "guide_offset_mm": 0.01,
+   "uniformity": 0.59,
+   "subq": {
+    "firmware_timing": 0.0002,
+    "fixture_contact": 0.0003,
+    "assembly_guide": 0.0002,
+    "material_led": 0.9993
+   }
+  },
+  {
+   "id": "U0086",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 1,
+   "temp_c": 19.2,
+   "retest": "fail",
+   "guide_offset_mm": 0.12,
+   "uniformity": 0.73,
+   "subq": {
+    "firmware_timing": 0.3364,
+    "fixture_contact": 0.1045,
+    "assembly_guide": 0.4953,
+    "material_led": 0.0637
+   }
+  },
+  {
+   "id": "U0087",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 2,
+   "temp_c": 16.7,
+   "retest": "fail",
+   "guide_offset_mm": 0.09,
+   "uniformity": 0.69,
+   "subq": {
+    "firmware_timing": 0.5175,
+    "fixture_contact": 0.1968,
+    "assembly_guide": 0.0768,
+    "material_led": 0.2089
+   }
+  },
+  {
+   "id": "U0088",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 1,
+   "hour_of_shift": 2,
+   "temp_c": 19.4,
+   "retest": "pass",
+   "guide_offset_mm": 0.1,
+   "uniformity": 0.66,
+   "subq": {
+    "firmware_timing": 0.3009,
+    "fixture_contact": 0.3101,
+    "assembly_guide": 0.245,
+    "material_led": 0.1439
+   }
+  },
+  {
+   "id": "U0089",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 7,
+   "temp_c": 20.4,
+   "retest": "fail",
+   "guide_offset_mm": 0.08,
+   "uniformity": 0.68,
+   "subq": {
+    "firmware_timing": 0.2814,
+    "fixture_contact": 0.1999,
+    "assembly_guide": 0.1689,
+    "material_led": 0.3498
+   }
+  },
+  {
+   "id": "U0090",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 1,
+   "temp_c": 16.2,
+   "retest": "fail",
+   "guide_offset_mm": 0.05,
+   "uniformity": 0.73,
+   "subq": {
+    "firmware_timing": 0.4119,
+    "fixture_contact": 0.2863,
+    "assembly_guide": 0.0473,
+    "material_led": 0.2545
+   }
+  },
+  {
+   "id": "U0091",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 5,
+   "temp_c": 23.8,
+   "retest": "fail",
+   "guide_offset_mm": 0.03,
+   "uniformity": 0.7,
+   "subq": {
+    "firmware_timing": 0.2727,
+    "fixture_contact": 0.1533,
+    "assembly_guide": 0.1205,
+    "material_led": 0.4536
+   }
+  },
+  {
+   "id": "U0092",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 2,
+   "temp_c": 18.7,
+   "retest": "pass",
+   "guide_offset_mm": 0.04,
+   "uniformity": 0.68,
+   "subq": {
+    "firmware_timing": 0.3641,
+    "fixture_contact": 0.3352,
+    "assembly_guide": 0.143,
+    "material_led": 0.1576
+   }
+  },
+  {
+   "id": "U0093",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 2,
+   "hour_of_shift": 3,
+   "temp_c": 24.1,
+   "retest": "fail",
+   "guide_offset_mm": 0.18,
+   "uniformity": 0.7,
+   "subq": {
+    "firmware_timing": 0.0011,
+    "fixture_contact": 0.0005,
+    "assembly_guide": 0.9975,
+    "material_led": 0.0009
+   }
+  },
+  {
+   "id": "U0094",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 1,
+   "hour_of_shift": 6,
+   "temp_c": 23.3,
+   "retest": "fail",
+   "guide_offset_mm": 0.05,
+   "uniformity": 0.64,
+   "subq": {
+    "firmware_timing": 0.2685,
+    "fixture_contact": 0.2286,
+    "assembly_guide": 0.0602,
+    "material_led": 0.4426
+   }
+  },
+  {
+   "id": "U0095",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 1,
+   "hour_of_shift": 6,
+   "temp_c": 24.5,
+   "retest": "fail",
+   "guide_offset_mm": 0.18,
+   "uniformity": 0.7,
+   "subq": {
+    "firmware_timing": 0.0087,
+    "fixture_contact": 0.0066,
+    "assembly_guide": 0.9663,
+    "material_led": 0.0183
+   }
+  },
+  {
+   "id": "U0096",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 2,
+   "hour_of_shift": 3,
+   "temp_c": 24.8,
+   "retest": "fail",
+   "guide_offset_mm": 0.04,
+   "uniformity": 0.73,
+   "subq": {
+    "firmware_timing": 0.1975,
+    "fixture_contact": 0.0476,
+    "assembly_guide": 0.5278,
+    "material_led": 0.227
+   }
+  },
+  {
+   "id": "U0097",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 1,
+   "hour_of_shift": 4,
+   "temp_c": 24.0,
+   "retest": "fail",
+   "guide_offset_mm": 0.16,
+   "uniformity": 0.71,
+   "subq": {
+    "firmware_timing": 0.0368,
+    "fixture_contact": 0.0323,
+    "assembly_guide": 0.8883,
+    "material_led": 0.0425
+   }
+  },
+  {
+   "id": "U0098",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 1,
+   "temp_c": 20.4,
+   "retest": "pass",
+   "guide_offset_mm": 0.03,
+   "uniformity": 0.71,
+   "subq": {
+    "firmware_timing": 0.3095,
+    "fixture_contact": 0.3193,
+    "assembly_guide": 0.1705,
+    "material_led": 0.2007
+   }
+  },
+  {
+   "id": "U0099",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 1,
+   "hour_of_shift": 8,
+   "temp_c": 24.6,
+   "retest": "pass",
+   "guide_offset_mm": 0.01,
+   "uniformity": 0.76,
+   "subq": {
+    "firmware_timing": 0.3281,
+    "fixture_contact": 0.3543,
+    "assembly_guide": 0.0931,
+    "material_led": 0.2245
+   }
+  },
+  {
+   "id": "U0100",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 1,
+   "hour_of_shift": 1,
+   "temp_c": 19.3,
+   "retest": "fail",
+   "guide_offset_mm": 0.01,
+   "uniformity": 0.68,
+   "subq": {
+    "firmware_timing": 0.2825,
+    "fixture_contact": 0.1945,
+    "assembly_guide": 0.0527,
+    "material_led": 0.4703
+   }
+  },
+  {
+   "id": "U0101",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 1,
+   "temp_c": 23.8,
+   "retest": "fail",
+   "guide_offset_mm": 0.09,
+   "uniformity": 0.7,
+   "subq": {
+    "firmware_timing": 0.3173,
+    "fixture_contact": 0.3158,
+    "assembly_guide": 0.2336,
+    "material_led": 0.1332
+   }
+  },
+  {
+   "id": "U0102",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 1,
+   "hour_of_shift": 4,
+   "temp_c": 20.6,
+   "retest": "fail",
+   "guide_offset_mm": 0.13,
+   "uniformity": 0.73,
+   "subq": {
+    "firmware_timing": 0.0709,
+    "fixture_contact": 0.1103,
+    "assembly_guide": 0.7473,
+    "material_led": 0.0715
+   }
+  },
+  {
+   "id": "U0103",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 2,
+   "temp_c": 24.0,
+   "retest": "pass",
+   "guide_offset_mm": 0.03,
+   "uniformity": 0.71,
+   "subq": {
+    "firmware_timing": 0.2529,
+    "fixture_contact": 0.2768,
+    "assembly_guide": 0.2448,
+    "material_led": 0.2255
+   }
+  },
+  {
+   "id": "U0104",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 1,
+   "temp_c": 17.4,
+   "retest": "pass",
+   "guide_offset_mm": 0.06,
+   "uniformity": 0.69,
+   "subq": {
+    "firmware_timing": 0.3054,
+    "fixture_contact": 0.2418,
+    "assembly_guide": 0.2407,
+    "material_led": 0.2121
+   }
+  },
+  {
+   "id": "U0105",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 1,
+   "hour_of_shift": 1,
+   "temp_c": 18.9,
+   "retest": "fail",
+   "guide_offset_mm": 0.11,
+   "uniformity": 0.71,
+   "subq": {
+    "firmware_timing": 0.0704,
+    "fixture_contact": 0.1264,
+    "assembly_guide": 0.7314,
+    "material_led": 0.0718
+   }
+  },
+  {
+   "id": "U0106",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 1,
+   "hour_of_shift": 1,
+   "temp_c": 19.9,
+   "retest": "pass",
+   "guide_offset_mm": 0.09,
+   "uniformity": 0.7,
+   "subq": {
+    "firmware_timing": 0.3076,
+    "fixture_contact": 0.3078,
+    "assembly_guide": 0.2382,
+    "material_led": 0.1464
+   }
+  },
+  {
+   "id": "U0107",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 1,
+   "hour_of_shift": 4,
+   "temp_c": 22.7,
+   "retest": "fail",
+   "guide_offset_mm": 0.16,
+   "uniformity": 0.66,
+   "subq": {
+    "firmware_timing": 0.0623,
+    "fixture_contact": 0.0728,
+    "assembly_guide": 0.8063,
+    "material_led": 0.0585
+   }
+  },
+  {
+   "id": "U0108",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 1,
+   "hour_of_shift": 1,
+   "temp_c": 17.6,
+   "retest": "fail",
+   "guide_offset_mm": 0.03,
+   "uniformity": 0.69,
+   "subq": {
+    "firmware_timing": 0.2155,
+    "fixture_contact": 0.2561,
+    "assembly_guide": 0.0643,
+    "material_led": 0.4641
+   }
+  },
+  {
+   "id": "U0109",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 2,
+   "hour_of_shift": 8,
+   "temp_c": 23.2,
+   "retest": "fail",
+   "guide_offset_mm": 0.09,
+   "uniformity": 0.65,
+   "subq": {
+    "firmware_timing": 0.1889,
+    "fixture_contact": 0.0823,
+    "assembly_guide": 0.0349,
+    "material_led": 0.694
+   }
+  },
+  {
+   "id": "U0110",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 2,
+   "hour_of_shift": 3,
+   "temp_c": 23.6,
+   "retest": "fail",
+   "guide_offset_mm": 0.24,
+   "uniformity": 0.7,
+   "subq": {
+    "firmware_timing": 0.0001,
+    "fixture_contact": 0.0001,
+    "assembly_guide": 0.9998,
+    "material_led": 0.0
+   }
+  },
+  {
+   "id": "U0111",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 5,
+   "temp_c": 24.8,
+   "retest": "pass",
+   "guide_offset_mm": 0.05,
+   "uniformity": 0.71,
+   "subq": {
+    "firmware_timing": 0.22,
+    "fixture_contact": 0.3323,
+    "assembly_guide": 0.1626,
+    "material_led": 0.2852
+   }
+  },
+  {
+   "id": "U0112",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 2,
+   "hour_of_shift": 1,
+   "temp_c": 24.8,
+   "retest": "pass",
+   "guide_offset_mm": 0.04,
+   "uniformity": 0.7,
+   "subq": {
+    "firmware_timing": 0.3497,
+    "fixture_contact": 0.3763,
+    "assembly_guide": 0.158,
+    "material_led": 0.116
+   }
+  },
+  {
+   "id": "U0113",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 2,
+   "hour_of_shift": 4,
+   "temp_c": 25.1,
+   "retest": "fail",
+   "guide_offset_mm": 0.14,
+   "uniformity": 0.76,
+   "subq": {
+    "firmware_timing": 0.0414,
+    "fixture_contact": 0.0319,
+    "assembly_guide": 0.8617,
+    "material_led": 0.0651
+   }
+  },
+  {
+   "id": "U0114",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 1,
+   "hour_of_shift": 8,
+   "temp_c": 24.5,
+   "retest": "fail",
+   "guide_offset_mm": 0.09,
+   "uniformity": 0.67,
+   "subq": {
+    "firmware_timing": 0.1838,
+    "fixture_contact": 0.4769,
+    "assembly_guide": 0.0574,
+    "material_led": 0.2819
+   }
+  },
+  {
+   "id": "U0115",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 1,
+   "temp_c": 20.5,
+   "retest": "fail",
+   "guide_offset_mm": 0.24,
+   "uniformity": 0.71,
+   "subq": {
+    "firmware_timing": 0.0001,
+    "fixture_contact": 0.0001,
+    "assembly_guide": 0.9998,
+    "material_led": 0.0
+   }
+  },
+  {
+   "id": "U0116",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 1,
+   "hour_of_shift": 1,
+   "temp_c": 18.7,
+   "retest": "fail",
+   "guide_offset_mm": 0.04,
+   "uniformity": 0.7,
+   "subq": {
+    "firmware_timing": 0.2258,
+    "fixture_contact": 0.2263,
+    "assembly_guide": 0.1461,
+    "material_led": 0.4018
+   }
+  },
+  {
+   "id": "U0117",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 2,
+   "temp_c": 18.8,
+   "retest": "pass",
+   "guide_offset_mm": 0.14,
+   "uniformity": 0.72,
+   "subq": {
+    "firmware_timing": 0.2886,
+    "fixture_contact": 0.2858,
+    "assembly_guide": 0.3658,
+    "material_led": 0.0599
+   }
+  },
+  {
+   "id": "U0118",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 8,
+   "temp_c": 24.8,
+   "retest": "pass",
+   "guide_offset_mm": 0.05,
+   "uniformity": 0.65,
+   "subq": {
+    "firmware_timing": 0.3127,
+    "fixture_contact": 0.2604,
+    "assembly_guide": 0.1091,
+    "material_led": 0.3179
+   }
+  },
+  {
+   "id": "U0119",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 1,
+   "hour_of_shift": 1,
+   "temp_c": 23.8,
+   "retest": "fail",
+   "guide_offset_mm": 0.08,
+   "uniformity": 0.7,
+   "subq": {
+    "firmware_timing": 0.2415,
+    "fixture_contact": 0.3413,
+    "assembly_guide": 0.1069,
+    "material_led": 0.3103
+   }
+  },
+  {
+   "id": "U0120",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 2,
+   "hour_of_shift": 2,
+   "temp_c": 22.9,
+   "retest": "pass",
+   "guide_offset_mm": 0.02,
+   "uniformity": 0.69,
+   "subq": {
+    "firmware_timing": 0.289,
+    "fixture_contact": 0.3045,
+    "assembly_guide": 0.08,
+    "material_led": 0.3265
+   }
+  },
+  {
+   "id": "U0121",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 2,
+   "hour_of_shift": 6,
+   "temp_c": 24.8,
+   "retest": "pass",
+   "guide_offset_mm": 0.03,
+   "uniformity": 0.73,
+   "subq": {
+    "firmware_timing": 0.2624,
+    "fixture_contact": 0.2145,
+    "assembly_guide": 0.0746,
+    "material_led": 0.4485
+   }
+  },
+  {
+   "id": "U0122",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 3,
+   "temp_c": 23.9,
+   "retest": "pass",
+   "guide_offset_mm": 0.01,
+   "uniformity": 0.71,
+   "subq": {
+    "firmware_timing": 0.277,
+    "fixture_contact": 0.3935,
+    "assembly_guide": 0.1824,
+    "material_led": 0.1472
+   }
+  },
+  {
+   "id": "U0123",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 2,
+   "hour_of_shift": 7,
+   "temp_c": 24.0,
+   "retest": "fail",
+   "guide_offset_mm": 0.15,
+   "uniformity": 0.68,
+   "subq": {
+    "firmware_timing": 0.0362,
+    "fixture_contact": 0.035,
+    "assembly_guide": 0.8991,
+    "material_led": 0.0296
+   }
+  },
+  {
+   "id": "U0124",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 2,
+   "hour_of_shift": 5,
+   "temp_c": 21.7,
+   "retest": "fail",
+   "guide_offset_mm": 0.14,
+   "uniformity": 0.65,
+   "subq": {
+    "firmware_timing": 0.0066,
+    "fixture_contact": 0.0039,
+    "assembly_guide": 0.9714,
+    "material_led": 0.018
+   }
+  },
+  {
+   "id": "U0125",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 2,
+   "hour_of_shift": 5,
+   "temp_c": 24.3,
+   "retest": "fail",
+   "guide_offset_mm": 0.18,
+   "uniformity": 0.78,
+   "subq": {
+    "firmware_timing": 0.0054,
+    "fixture_contact": 0.005,
+    "assembly_guide": 0.9834,
+    "material_led": 0.0062
+   }
+  },
+  {
+   "id": "U0126",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 1,
+   "hour_of_shift": 6,
+   "temp_c": 23.7,
+   "retest": "pass",
+   "guide_offset_mm": 0.03,
+   "uniformity": 0.68,
+   "subq": {
+    "firmware_timing": 0.2475,
+    "fixture_contact": 0.4423,
+    "assembly_guide": 0.1369,
+    "material_led": 0.1732
+   }
+  },
+  {
+   "id": "U0127",
+   "station": "S6",
+   "lot": "B",
+   "fixture": 1,
+   "hour_of_shift": 7,
+   "temp_c": 23.6,
+   "retest": "fail",
+   "guide_offset_mm": 0.21,
+   "uniformity": 0.69,
+   "subq": {
+    "firmware_timing": 0.0025,
+    "fixture_contact": 0.0035,
+    "assembly_guide": 0.9922,
+    "material_led": 0.0018
+   }
+  },
+  {
+   "id": "U0128",
+   "station": "S6",
+   "lot": "A",
+   "fixture": 2,
+   "hour_of_shift": 4,
+   "temp_c": 22.3,
+   "retest": "fail",
+   "guide_offset_mm": 0.11,
+   "uniformity": 0.63,
+   "subq": {
+    "firmware_timing": 0.0445,
+    "fixture_contact": 0.0811,
+    "assembly_guide": 0.0473,
+    "material_led": 0.827
+   }
+  }
+ ],
+ "mil": [
+  {
+   "id": "MIL-001",
+   "jira_url": null,
+   "failure_name": "Light ring uniformity",
+   "station": "S6",
+   "units_failed": 128,
+   "units_tested": 2400,
+   "failure_rate": 0.0533,
+   "category": "Firmware",
+   "category_history": [
+    {
+     "from": "Material",
+     "to": "Firmware",
+     "reason": "FA: LEDs pass on the bench, registers hold defaults"
+    }
+   ],
+   "fa_steps": [
+    "Bench the LEDs",
+    "Read back calibration registers",
+    "Retest warm"
+   ],
+   "fa_findings": [
+    "LEDs pass on the bench. Calibration registers hold defaults. Unit passes once warm."
+   ],
+   "root_cause": {
+    "text": "Firmware applied ring calibration before the part was ready",
+    "status": "confirmed"
+   },
+   "corrective_action": "Twin change B",
+   "etc_ca": "Build N+1",
+   "etc_monitoring": "Build N+1",
+   "status": "closed"
+  }
+ ],
+ "fa": {
+  "budget": 5,
+  "subq_picks": [
+   "U0110",
+   "U0085",
+   "U0033",
+   "U0086",
+   "U0066"
+  ],
+  "baselines": {
+   "random": 0.786,
+   "worst_first": 0.797
+  }
+ },
+ "changes": [
+  {
+   "id": "A",
+   "summary": "Memorize build N's failure rate by hour and lot",
+   "diff": "+ rate = BUILD_N_TABLE[hour][lot]",
+   "build_n_score": 100.0,
+   "heldout_score": 75.7,
+   "gemini": "The table has no cause in it. Move the cold hour and it fails.",
+   "decision": "rejected"
+  },
+  {
+   "id": "B",
+   "summary": "Model the cold start of the slower part",
+   "diff": "+ if part.slow and temp_c < 20.5:\n+     calibration_write = DROPPED",
+   "build_n_score": 98.9,
+   "heldout_score": 98.9,
+   "gemini": "Could not refute it on shifted temperatures.",
+   "decision": "adopted"
+  }
+ ]
+}
