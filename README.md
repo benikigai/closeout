@@ -6,8 +6,9 @@ Closeout is a Failure Analysis (FA) engine for hardware factories. It takes the 
 
 > The MIL says Material. The parts are fine. It was firmware, at cold start, on a second-source part — and no single team owned it.
 
-**Live site:** [closeout-web.vercel.app](https://closeout-web.vercel.app) — currently on `fixture` data, labeled on every screen.
+**Live site:** [closeout-web.vercel.app](https://closeout-web.vercel.app). The bench runs the compiled C firmware live. The SubQ assessment and the engine trace are recorded replays. Every screen says which.
 **Repo:** [benikigai/closeout](https://github.com/benikigai/closeout) (public, built 2026-11-07 at the AIE Code Summit Hackathon)
+**Demo video:** [60 seconds on YouTube](https://youtu.be/z_zCCMzQvvQ) · **Submission:** [Cerebral Valley gallery](https://cerebralvalley.ai/e/aie-code-2026-hackathon/hackathon/gallery/1)
 **Built with:** Muse Code (`muse-wonder-1.0`) · SubQ Snap 1.1 · Gemini (`gemini-4-argon`) · MongoDB
 
 Everything in this repo was written during the event. The product, the line, and every failure are fictional. All data is `synthetic` and seeded. This proves the loop, not the physics. No real product, customer, or employer data or code is in this repo.
@@ -217,9 +218,9 @@ Deliberately deferred: **Fetch.ai / ASI:One** is an adapter-last verdict-card su
 
 ---
 
-## 7. What exists today, and what does not
+## 7. What exists, and what does not
 
-Honesty labels, per surface. `RUN` = observed by executing it today. `simulated` = synthetic seeded data, labeled on screen.
+Honesty labels, per surface, as of the final build on 2026-11-07. `RUN` = observed by executing it. `replay` = a recorded run, labeled on screen. `simulated` = synthetic seeded data, labeled on screen.
 
 | Surface | State | Evidence |
 | --- | --- | --- |
@@ -227,26 +228,49 @@ Honesty labels, per surface. `RUN` = observed by executing it today. `simulated`
 | Meta models (`muse-wonder-1.0`) | `live` (RUN) | Model list + builder calls verified today |
 | Gemini (`gemini-4-argon`) | `live` (RUN) | Blind-verifier call completes in ~6 s |
 | Station firmware + fake HAL | `live` (RUN) | Small C firmware, deterministic per-unit runs: warm passes, cold fails, known-bad always fails, rerun identical (4/4 tests) |
-| Judge site | `live` on `fixture` data | [closeout-web.vercel.app](https://closeout-web.vercel.app) — fixture state labeled on screen |
+| Judge site | `live` (RUN) for the bench, `replay` for the rest | [closeout-web.vercel.app](https://closeout-web.vercel.app). Every bench action runs the compiled C firmware on the server against a synthetic unit. The SubQ assessment and the engine trace are replays, labeled on screen |
 | Contracts (log / MIL / FA / UI schemas) | `live` | JSON Schema contracts for log records, MIL items, the FA lab interface (`POST /fa/investigate`, budget 10, over-budget rejected), and the picker signature |
-| MongoDB ledger | Schema defined, local-first | Atlas connection pending re-auth; the demo never blocks on it. Atlas is claimed only when verified live |
-| Scaffold line + sealed FA lab (full) | In build | Deterministic generator + FA lab API per the contracts above |
-| Fetch / ASI:One adapter | Deferred (cut-first) | Go/no-go at core acceptance; not claimed until end-to-end |
+| MongoDB Atlas ledger | `replay` on the site | `engine/ledger/ledger.py` keeps the MIL in Atlas with a strict `$jsonSchema` and the close gates. The site replays MIL-001 closing (Material to Firmware) from the engine run. The browser never writes to the ledger |
+| Scaffold line + sealed FA lab | `live` (RUN) | Deterministic generator and FA lab. 24 sealed scenarios scored for the picker metric below |
+| Fetch / ASI:One adapter | Cut | Not built. Not claimed |
 
-### Measured so far — including the loss
+### Final results
 
-One SubQ call on 128 seeded failed units whose causes overlap on purpose, scored with a first greedy picker:
+Held-out builds, run by the compiled C firmware on synthetic units (`web/demo-source/heldout.json`, 20 builds, 320 units):
+
+| Check | Result |
+| --- | --- |
+| Cold units failing, before and after the fix | 113 → 0 |
+| Known-bad domes still failing after the fix | 15 of 15 |
+| Warm units broken by the fix | 0 |
+| The shortcut: widen the optical limit 0.05 → 0.24 | Rejected. It let a known-bad unit escape |
+
+FA routing, the pre-registered metric (`web/data/demo-payload.json`): mean FA investigations to root cause across 24 sealed scenarios. Lower is better.
+
+| Strategy | FA investigations to root cause |
+| --- | --- |
+| Closeout (SubQ picker) | 1 |
+| Random | 1.08 |
+| Worst first | 3.71 |
+
+Against random this is a small edge, not a rout. Against worst-first it is a clear one.
+
+Gemini's blind verdict on the engine run: the root cause holds. Cold failures went 202 → 0 across 10 held-out seeds, and all 22 known-bad units still failed.
+
+### The first result, kept: the picker lost
+
+Earlier in the day, one SubQ call scored 128 seeded failed units whose causes overlap on purpose. A first greedy picker chose the FA units:
 
 | Check | Result |
 | --- | --- |
 | Call time | 2.54 s for 128 units |
 | Top choice matched the seeded cause | 41.4% |
-| High-confidence answers (score 0.8–1.0, 31 units) | Said ~93%, right 71% — overconfident; we say "scores," not "probabilities," until calibration earns the word |
+| High-confidence answers (score 0.8 to 1.0, 31 units) | Said ~93%, right 71%. Overconfident, so the UI says "scores," not "probabilities" |
 | Failed units explained by 5 FA picks, SubQ picker | 73.4% |
 | Random picks (2,000 trials) | 78.6% |
 | Lowest-uniformity-first | 79.7% |
 
-**The first picker lost to both baselines.** On one small scenario, FA routing is unproven — and that is exactly the kind of result this system exists to surface instead of hide. The headline metric going forward is pre-registered: *FA units to root cause, across at least 20 sealed scenarios per strategy (SubQ picks vs random vs worst-first), reported whichever way it lands.* If SubQ's picks do not beat the baselines, the pitch says so and the picker's split logic is what gets fixed.
+**The first picker lost to both baselines.** That result stays here on purpose. It set the pre-registered metric above (FA units to root cause, across at least 20 sealed scenarios per strategy, reported whichever way it lands), and the final numbers are that metric.
 
 ---
 
@@ -307,11 +331,11 @@ The hackathon artifact stays clean on purpose: fictional product, synthetic data
 
 ## 11. Read this before you believe it
 
-- **Live vs fixture:** SubQ, Meta, and Gemini calls are verified live today. The judge site currently renders `fixture` data and says so on screen. Switching it to the real `run.json` is the freeze step, not a rewrite.
-- **Scores vs probabilities:** SubQ outputs are called *scores* in the UI and this README. The one calibration check so far showed overconfidence (said ~93%, right 71%), so probability language has to be earned by the 20-scenario calibration run.
-- **Picker status:** the first FA picker lost to random and worst-first baselines on the first scenario. Unproven, pre-registered metric, result will be published either way.
+- **Live vs replay:** the bench on the site runs real compiled C on every click. The SubQ assessment, the Gemini verdict and the engine trace come from real calls in the 2026-11-07 engine run. The site replays them and says so. The browser never generates a new patch or writes to the ledger.
+- **Scores vs probabilities:** SubQ outputs are called *scores* in the UI and this README. The one calibration check showed overconfidence (said ~93%, right 71%). The top score in the demo, 0.80, sits under the 0.85 confirmation bar, so it routes the next test and never confirms a cause.
+- **Picker status:** the first picker lost on the first scenario. On the pre-registered 24-scenario metric it took 1 FA investigation to root cause, against 1.08 for random and 3.71 for worst-first. A small edge over random.
 - **Simulation boundary:** this demos the *loop* (logic, routing, gating, proof), not physics. Failure magnitudes from the synthetic world are never quoted as real-world rates.
-- **Deferred, not hidden:** MongoDB Atlas goes live only after re-auth verification; Fetch/ASI:One is cut-first and unclaimed until end-to-end. Both are labeled where they appear.
+- **Cut, not hidden:** Fetch/ASI:One was cut and is not claimed.
 
 ---
 
