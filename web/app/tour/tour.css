@@ -1,9 +1,9 @@
 /* 60-second tour. A fixed 1920x1080 stage, scaled to fit the window. */
 .tour { position: fixed; inset: 0; background: #0b0d0f; overflow: hidden; }
 .tour .stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; background: #101316; overflow: hidden;
-  font-family: 'Archivo', Arial, Helvetica, sans-serif; color: #f0eee7; }
+  font-family: var(--font-archivo), Arial, Helvetica, sans-serif; color: #f0eee7; }
 .tour .scene { position: absolute; inset: 0; }
-.tour .mono { font-family: 'Martian Mono', ui-monospace, monospace; letter-spacing: 0.04em; }
+.tour .mono { font-family: var(--font-martian), ui-monospace, monospace; letter-spacing: 0.04em; }
 .tour .w { display: inline-block; will-change: transform; }
 
 .tour .hl { margin: 0; font-size: 84px; font-weight: 800; letter-spacing: -0.045em; line-height: 1.02; color: #f0eee7; }
@@ -26,7 +26,7 @@
 .tour .leg i { width: 14px; height: 14px; border-radius: 3px; display: block; }
 .tour .leg em { display: block; height: 10px; background: #1d2328; }
 .tour .leg s { display: block; height: 10px; text-decoration: none; }
-.tour .leg b { font-family: 'Martian Mono', monospace; font-weight: 500; font-size: 17px; color: #f0eee7; text-align: right; }
+.tour .leg b { font-family: var(--font-martian), monospace; font-weight: 500; font-size: 17px; color: #f0eee7; text-align: right; }
 .tour .finding { display: grid; grid-template-columns: 140px 1fr; align-items: baseline; gap: 10px; font-size: 27px; padding: 12px 0; border-bottom: 1px solid #30373d; }
 .tour .cat { font-size: 132px; font-weight: 800; letter-spacing: -0.05em; line-height: 1.04; }
 .tour .strike { position: absolute; left: -2%; top: 54%; height: 9px; background: #f49283; display: block; }
@@ -39,17 +39,17 @@
 .tour .tb-tag i::after { content: ''; display: block; width: 90px; height: 2px; background: #edc577; margin: 3px 0 0 11px; }
 .tour .tb-tag span { margin-left: 100px; margin-top: -6px; display: flex; flex-direction: column; font-size: 24px; color: #a5adb3; white-space: nowrap; }
 .tour .tb-tag b { color: #f0eee7; font-size: 30px; }
-.tour .tb-tag em { font-style: normal; font-family: 'Martian Mono', monospace; font-size: 18px; color: #7fa9d6; margin-top: 6px; }
+.tour .tb-tag em { font-style: normal; font-family: var(--font-martian), monospace; font-size: 18px; color: #7fa9d6; margin-top: 6px; }
 
 /* Fix */
 .tour .code { border: 1px solid #30373d; background: #171c20; padding: 26px 30px; }
-.tour .code pre { margin: 18px 0 0; font-family: 'Martian Mono', monospace; font-size: 20px; line-height: 2.05; white-space: pre; overflow: hidden; border: 0; padding: 0; background: none; }
+.tour .code pre { margin: 18px 0 0; font-family: var(--font-martian), monospace; font-size: 20px; line-height: 2.05; white-space: pre; overflow: hidden; border: 0; padding: 0; background: none; }
 .tour .code pre > span { display: block; padding: 0 12px; }
 .tour .code .ctx { color: #6e7b85; }
 .tour .code .del { color: #f49283; background: rgba(244, 146, 131, 0.1); }
 .tour .code .add { color: #acd5b7; background: rgba(172, 213, 183, 0.1); min-height: 39px; }
 .tour .result { display: flex; justify-content: space-between; align-items: baseline; border-top: 1px solid #30373d; margin: 18px 0 12px; padding-top: 18px; }
-.tour .result span { font-family: 'Martian Mono', monospace; font-size: 22px; }
+.tour .result span { font-family: var(--font-martian), monospace; font-size: 22px; }
 .tour .result b { font-size: 54px; font-weight: 800; letter-spacing: -0.02em; }
 
 /* Cheat */
@@ -78,7 +78,7 @@
 .tour .logo { border: 1px solid #30373d; padding: 16px 26px; font-weight: 700; font-size: 22px; color: #a5adb3; }
 
 /* Chrome */
-.tour .truth { position: absolute; right: 120px; bottom: 44px; text-align: right; font-family: 'Martian Mono', monospace; font-size: 17px; color: #a5adb3; display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
+.tour .truth { position: absolute; right: 120px; bottom: 44px; text-align: right; font-family: var(--font-martian), monospace; font-size: 17px; color: #a5adb3; display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
 .tour .truth > div:first-child { display: flex; align-items: center; gap: 10px; }
 .tour .truth i { width: 8px; height: 8px; border-radius: 50%; display: block; }
 .tour .truth .fict { font-size: 14px; color: #6e7b85; }
